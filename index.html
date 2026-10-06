@@ -40,7 +40,6 @@
       color: #1e293b;
     }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -50,20 +49,18 @@
       border-radius: 9999px;
     }
 
-    /* SVG Interactive Node Styles */
     .mindmap-node {
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
       cursor: pointer;
     }
     .mindmap-node:hover {
-      filter: drop-shadow(0px 8px 16px rgba(59, 130, 246, 0.3));
+      filter: drop-shadow(0px 8px 16px rgba(59, 130, 246, 0.35));
     }
 
     .leveling-block {
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 3D Flip Card Styles */
     .perspective-1000 {
       perspective: 1000px;
     }
@@ -81,7 +78,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800">
 
-  <!-- Top Navigation Header -->
+  <!-- Header -->
   <header class="bg-brand-900 text-white shadow-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
@@ -92,7 +89,6 @@
         </div>
       </div>
       
-      <!-- Right Action Controls -->
       <div class="flex items-center space-x-2">
         <button id="nav-home-btn" onclick="switchTab('home')" class="px-4 py-2 rounded-full border border-white/30 bg-white/10 hover:bg-white/20 text-sm font-bold transition active:scale-95 flex items-center space-x-1 shadow-sm">
           <span>🏠</span>
@@ -113,11 +109,10 @@
     <section id="page-home" class="space-y-6">
       <div class="text-center py-6">
         <h2 id="home-title" class="text-2xl md:text-3xl font-black text-slate-800 mb-2">請選擇學習單元</h2>
-        <p id="home-subtitle-desc" class="text-slate-500 max-w-xl mx-auto">透過直觀視覺動畫、互動知識心智圖及擬真小學數學題庫，輕鬆掌握平均數核心概念！</p>
+        <p id="home-subtitle-desc" class="text-slate-500 max-w-xl mx-auto">透過直觀視覺動畫與互動知識心智圖，輕鬆掌握平均數核心概念！</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Card 1 -->
+      <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
         <div onclick="switchTab('unit1')" class="bg-white rounded-2xl p-6 shadow-sm border-2 border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer group flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">📊</div>
@@ -129,7 +124,6 @@
           </div>
         </div>
 
-        <!-- Card 2 -->
         <div onclick="switchTab('unit2')" class="bg-white rounded-2xl p-6 shadow-sm border-2 border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer group flex flex-col justify-between">
           <div>
             <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">🧠</div>
@@ -140,22 +134,10 @@
             <span id="card2-action">探索心智圖</span> &rarr;
           </div>
         </div>
-
-        <!-- Card 3 -->
-        <div onclick="switchTab('unit3')" class="bg-white rounded-2xl p-6 shadow-sm border-2 border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer group flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">✏️</div>
-            <h3 id="card3-title" class="text-xl font-bold text-slate-800 mb-2">單元三：應用題大挑戰</h3>
-            <p id="card3-desc" class="text-slate-600 text-sm leading-relaxed">涵蓋求平均數、已知平均求總和、倒推未知分數等題型，防誤觸輸入設計，提升解答精準度。</p>
-          </div>
-          <div class="mt-6 flex items-center font-bold text-amber-600 text-sm">
-            <span id="card3-action">開始挑戰</span> &rarr;
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- UNIT 1 PAGE -->
+    <!-- UNIT 1 PAGE (完全保留 v14 原內容，未做任何修改) -->
     <section id="page-unit1" class="hidden space-y-6">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
@@ -178,11 +160,11 @@
         </div>
 
         <p id="u1-guide-text" class="text-slate-600 text-sm my-3 flex items-center gap-2 bg-blue-50/80 p-3 rounded-xl border border-blue-100">
-          <span>💡</span> <span><b>操作提示：</b> 上下拖拉藍色虛線來估算平均高度；亦可選擇兩種動畫模式觀看平鋪過程！</span>
+          <span>💡</span> <span><b>操作提示：</b> 上下拖拉藍色虛線估算平均高度；老師亦可在下方的摺疊選項中修改棒條數值！</span>
         </p>
 
         <!-- Chart Canvas Container -->
-        <div class="relative w-full h-[380px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl overflow-hidden my-4 select-none" id="chart-wrapper">
+        <div class="relative w-full h-[380px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl overflow-hidden my-4 select-none cursor-pointer" id="chart-wrapper">
           <svg class="w-full h-full" id="chart-svg" viewBox="0 0 700 350">
             <!-- Grid Lines Layer -->
             <g id="grid-lines" style="display: none;"></g>
@@ -193,7 +175,6 @@
             <!-- Exact Average Line (Red) -->
             <g id="correct-line-group" class="hidden">
               <line id="correct-line" x1="50" y1="0" x2="650" y2="0" stroke="#ef4444" stroke-width="3" stroke-dasharray="6,4" />
-              <!-- Right side red number (Only visible when Y-Axis is checked) -->
               <text id="correct-line-value" x="660" y="0" fill="#ef4444" font-size="16" font-weight="bold" alignment-baseline="middle" class="hidden">0</text>
             </g>
             <!-- Student Draggable Estimate Line (Blue) -->
@@ -208,24 +189,16 @@
           </svg>
         </div>
 
-        <!-- Stats Banner -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-100 p-4 rounded-xl text-center font-bold text-slate-700">
-          <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200">
-            <span id="lbl-stat-estimate" class="text-xs text-slate-500 block">你的估算平均數</span>
-            <span id="val-user-estimate" class="text-xl text-brand-600 font-black">100</span>
-          </div>
-          <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200">
-            <span id="lbl-stat-diff" class="text-xs text-slate-500 block">估算精準度評級</span>
-            <span id="val-accuracy-badge" class="text-base font-extrabold text-slate-400">請按「顯示答案」</span>
-          </div>
-        </div>
-
         <!-- Controls & Toggles -->
-        <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+        <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-4 my-4">
           <div class="flex flex-wrap items-center gap-4">
             <label class="flex items-center space-x-2 font-bold text-slate-700 text-sm cursor-pointer">
               <input type="checkbox" id="chk-show-values" onchange="toggleShowValues(this.checked)" class="w-5 h-5 rounded text-brand-600 focus:ring-brand-500">
               <span id="lbl-chk-show-values">顯示每項數據數值</span>
+            </label>
+            <label class="flex items-center space-x-2 font-bold text-slate-700 text-sm cursor-pointer">
+              <input type="checkbox" id="chk-show-totalsum" onchange="toggleShowTotalSum(this.checked)" class="w-5 h-5 rounded text-brand-600 focus:ring-brand-500">
+              <span id="lbl-chk-show-totalsum">顯示總和</span>
             </label>
             <label class="flex items-center space-x-2 font-bold text-slate-700 text-sm cursor-pointer">
               <input type="checkbox" id="chk-show-yaxis" onchange="toggleYAxis(this.checked)" class="w-5 h-5 rounded text-brand-600 focus:ring-brand-500">
@@ -241,7 +214,7 @@
             </label>
           </div>
 
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <button id="btn-animate-leveling" onclick="runLevelingAnimation()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow-sm transition active:scale-95 flex items-center space-x-1.5">
               <span>✨</span>
               <span id="btn-leveling-text">播放「移多補少」動畫</span>
@@ -250,101 +223,69 @@
               <span>🥞</span>
               <span id="btn-sumdivide-text">播放「加總再分」動畫</span>
             </button>
+            <button id="btn-clear-anim" onclick="clearAnimation()" class="bg-slate-500 hover:bg-slate-600 text-white font-bold px-4 py-2 rounded-xl text-sm shadow-sm transition active:scale-95 flex items-center space-x-1.5">
+              <span>🧹</span>
+              <span id="btn-clear-anim-text">清除動畫</span>
+            </button>
           </div>
         </div>
+
+        <!-- Stats Banner -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-100 p-4 rounded-xl text-center font-bold text-slate-700 mb-4">
+          <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200">
+            <span id="lbl-stat-estimate" class="text-xs text-slate-500 block">你的估算平均數</span>
+            <span id="val-user-estimate" class="text-xl text-brand-600 font-black">100</span>
+          </div>
+          <div id="card-total-sum" class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 hidden">
+            <span id="lbl-stat-sum" class="text-xs text-slate-500 block">數據總和</span>
+            <span id="val-total-sum" class="text-xl text-indigo-600 font-black">0</span>
+          </div>
+          <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 col-span-1 sm:col-span-1">
+            <span id="lbl-stat-diff" class="text-xs text-slate-500 block">估算精準度評級</span>
+            <span id="val-accuracy-badge" class="text-base font-extrabold text-slate-400">請按「顯示答案」</span>
+          </div>
+        </div>
+
+        <!-- Collapsible Teacher Bar Value Inputs Section -->
+        <details class="bg-slate-100 rounded-xl mb-4 border border-slate-200 overflow-hidden">
+          <summary class="p-4 font-extrabold text-slate-700 text-sm cursor-pointer select-none hover:bg-slate-200/60 transition flex items-center justify-between">
+            <span id="lbl-adjust-bars">🎛️ 手動調整棒條數值 (摺疊選項 - 最少為 0)</span>
+            <span class="text-xs text-slate-500 font-normal ml-2">(點擊展開/摺疊選項)</span>
+          </summary>
+          <div class="p-4 pt-1 bg-slate-50 border-t border-slate-200">
+            <div id="bar-inputs-container" class="flex flex-wrap gap-3"></div>
+          </div>
+        </details>
 
       </div>
     </section>
 
-    <!-- UNIT 2 PAGE -->
+    <!-- UNIT 2 PAGE (支援拖拉移動與精確放大6成畫面) -->
     <section id="page-unit2" class="hidden space-y-6">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-          <div>
-            <span class="inline-block bg-teal-100 text-teal-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-1">Unit 2</span>
+          <div class="flex items-center space-x-3">
+            <span class="inline-block bg-teal-100 text-teal-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">UNIT 2</span>
             <h2 id="u2-header-title" class="text-2xl font-bold text-slate-800">六何法概念圖 (5W1H Mindmap)</h2>
           </div>
-          <button onclick="resetMindmapFocus()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition active:scale-95 flex items-center space-x-1">
+          <button onclick="resetMindmapFocus()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition active:scale-95 flex items-center space-x-1 shadow-sm">
             <span>🎯</span>
             <span id="btn-reset-map">重置中心視角</span>
           </button>
         </div>
 
-        <p id="u2-guide-text" class="text-slate-600 text-sm my-3 bg-teal-50 p-3 rounded-xl border border-teal-100">
-          💡 <b>操作提示：</b> 按<b>第一下</b>可放大並置中該節點；在置中狀態下按<b>第二下</b>將彈出 3D 問題卡片！
+        <p id="u2-guide-text" class="text-slate-600 text-sm my-3 bg-emerald-50/80 p-3 rounded-xl border border-emerald-100">
+          💡 <b>操作提示：</b> 拖拉空白位置可移動心智圖；按<b>第一下</b>可放大置中該節點（約佔 6 成畫面）；在置中狀態下按<b>第二下</b>將彈出 3D 問題卡片！
         </p>
 
-        <!-- Mindmap SVG Container -->
-        <div class="relative w-full h-[72vh] bg-slate-50 border-2 border-slate-200 rounded-2xl overflow-hidden shadow-inner my-4 cursor-grab active:cursor-grabbing" id="mindmap-container">
+        <!-- Mindmap SVG Canvas Container -->
+        <div class="relative w-full h-[72vh] bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden shadow-inner my-4 cursor-grab active:cursor-grabbing select-none" id="mindmap-container">
           <svg class="w-full h-full" id="mindmap-svg" viewBox="0 0 1000 700">
             <g id="mindmap-view-group" style="transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);">
-              <!-- Lines Layer -->
               <g id="mindmap-lines"></g>
-              <!-- Nodes Layer -->
               <g id="mindmap-nodes"></g>
             </g>
           </svg>
-        </div>
-      </div>
-    </section>
-
-    <!-- UNIT 3 PAGE -->
-    <section id="page-unit3" class="hidden space-y-6">
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-          <div>
-            <span class="inline-block bg-amber-100 text-amber-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-1">Unit 3</span>
-            <h2 id="u3-header-title" class="text-2xl font-bold text-slate-800">應用題大挑戰 (Contextual Practice)</h2>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span id="lbl-quiz-completed" class="text-sm font-bold text-slate-500">已完成：</span>
-            <span id="quiz-score-badge" class="bg-amber-100 text-amber-800 font-black px-3 py-1 rounded-full text-sm">0 題</span>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap gap-2 my-4">
-          <button onclick="setQuizType('type1')" id="btn-qtype-1" class="qtype-btn flex-1 py-2.5 px-4 rounded-xl font-bold text-sm bg-amber-500 text-white shadow-sm transition">
-            題型一：基本求平均數
-          </button>
-          <button onclick="setQuizType('type2')" id="btn-qtype-2" class="qtype-btn flex-1 py-2.5 px-4 rounded-xl font-bold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
-            題型二：已知平均求總和
-          </button>
-          <button onclick="setQuizType('type3')" id="btn-qtype-3" class="qtype-btn flex-1 py-2.5 px-4 rounded-xl font-bold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
-            題型三：逆向求未知數據
-          </button>
-        </div>
-
-        <div class="bg-amber-50/50 border border-amber-200 p-6 rounded-2xl space-y-4">
-          <div class="flex items-start space-x-3">
-            <span class="bg-amber-500 text-white font-black text-sm px-2.5 py-1 rounded-lg mt-0.5">Q</span>
-            <p id="quiz-question-text" class="text-slate-800 font-semibold text-lg md:text-xl leading-relaxed">
-              題目加載中...
-            </p>
-          </div>
-
-          <div class="pt-4 border-t border-amber-200/60 flex flex-wrap items-center gap-3">
-            <label id="lbl-answer-input" class="font-bold text-slate-700">你的答案：</label>
-            <!-- Number input restricted to positive numbers only -->
-            <input type="number" id="quiz-user-input" min="0" step="any" placeholder="請輸入正數" class="bg-white border-2 border-slate-300 rounded-xl px-4 py-2 font-bold text-lg text-slate-800 focus:outline-none focus:border-amber-500 w-44">
-            <span id="quiz-unit-text" class="font-bold text-slate-600">分</span>
-
-            <button id="btn-quiz-submit" onclick="checkQuizAnswer()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-sm transition active:scale-95">
-              提交答案
-            </button>
-            <button id="btn-quiz-hint" onclick="toggleQuizHint()" class="bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl transition">
-              💡 提示
-            </button>
-            <button id="btn-quiz-next" onclick="generateNewQuizQuestion()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl transition ml-auto">
-              下一題 ➡️
-            </button>
-          </div>
-
-          <div id="quiz-hint-box" class="hidden p-4 bg-white border border-amber-300 rounded-xl text-amber-900 text-sm font-medium">
-            <span id="lbl-quiz-hint-title" class="font-bold block mb-1">💡 解題提示：</span>
-            <span id="quiz-hint-content">...</span>
-          </div>
-
-          <div id="quiz-feedback-box" class="hidden p-4 rounded-xl text-base font-bold"></div>
         </div>
       </div>
     </section>
@@ -373,8 +314,6 @@
   <div id="mindmap-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeMindmapModal()">
     <div class="perspective-1000 w-[90vw] max-w-2xl h-[460px] cursor-pointer" onclick="event.stopPropagation(); flipCard();">
       <div id="flip-card-inner" class="relative w-full h-full transition-transform duration-700 transform-style-3d shadow-2xl rounded-3xl">
-        
-        <!-- Front Side: Question Only -->
         <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-600 to-emerald-700 text-white rounded-3xl p-8 flex flex-col justify-between items-center text-center backface-hidden border-4 border-white/20">
           <div id="card-front-badge" class="text-xs font-bold uppercase tracking-widest bg-white/20 px-4 py-1.5 rounded-full">點擊卡片翻轉查看解答</div>
           <div class="my-auto">
@@ -386,7 +325,6 @@
           <div id="card-front-footer" class="text-sm opacity-80 font-semibold">🔄 點擊卡片翻面 | 點擊空白處退出</div>
         </div>
 
-        <!-- Back Side: Detailed Answer -->
         <div class="absolute inset-0 w-full h-full bg-white text-slate-800 rounded-3xl p-8 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180 border-4 border-teal-500 overflow-y-auto">
           <div id="card-back-badge" class="text-xs font-bold uppercase tracking-widest bg-teal-100 text-teal-800 px-4 py-1.5 rounded-full">核心概念解說</div>
           <div class="my-auto">
@@ -397,13 +335,11 @@
           </div>
           <div id="card-back-footer" class="text-sm text-slate-400 font-semibold">🔄 點擊卡片再次翻面 | 點擊空白處退出</div>
         </div>
-
       </div>
     </div>
   </div>
 
   <script>
-    /* Global Internationalization Dictionary */
     const i18n = {
       zh: {
         headerTitle: "平均數 (Averages)",
@@ -411,36 +347,33 @@
         langBtn: "English",
         navHome: "選單主頁",
         homeTitle: "請選擇學習單元",
-        homeDesc: "透過直觀視覺動畫、互動知識心智圖及擬真小學數學題庫，輕鬆掌握平均數核心概念！",
+        homeDesc: "透過直觀視覺動畫與互動知識心智圖，輕鬆掌握平均數核心概念！",
         card1Title: "單元一：圖像與移多補少",
         card1Desc: "拖拉橫線估算平均數，體驗「移多補少」及「加總再分」雙動畫，建立真實數學直覺。",
         card1Action: "開始學習",
         card2Title: "單元二：六何法概念圖",
         card2Desc: "運用六何法心智圖，點擊聚焦放大，再次點擊翻開 3D 問題卡，全面理解平均數原理。",
         card2Action: "探索心智圖",
-        card3Title: "單元三：應用題大挑戰",
-        card3Desc: "涵蓋求平均數、已知平均求總和、倒推未知分數等題型，防誤觸輸入設計，提升解答精準度。",
-        card3Action: "開始挑戰",
         u1Header: "圖像化概念與「移多補少」",
-        u1Guide: "💡 <b>操作提示：</b> 上下拖拉藍色虛線來估算平均高度；亦可選擇兩種動畫模式觀看平鋪過程！",
+        u1Guide: "💡 <b>操作提示：</b> 上下拖拉藍色虛線估算平均高度；老師亦可在下方的摺疊選項中修改棒條數值！",
         btnNextChart: "換一組題目",
         lblCount: "項目數量：",
         lblStatEst: "你的估算平均數",
+        lblStatSum: "數據總和",
         lblStatDiff: "估算精準度評級",
         chkValues: "顯示每項數據數值",
+        chkTotalSum: "顯示數據總和",
         chkYAxis: "顯示縱軸",
         chkAnswer: "顯示正確答案",
         chkFormula: "顯示計算式",
         btnLeveling: "播放「移多補少」動畫",
         btnSumDivide: "播放「加總再分」動畫",
+        btnSumDividePhase2: "▶️ 再按一次「加總再分」播放等分",
+        btnClearAnim: "清除動畫",
+        lblAdjustBars: "🎛️ 手動調整棒條數值 (摺疊選項 - 最少為 0)",
         u2Header: "六何法概念圖 (5W1H Mindmap)",
-        u2Guide: "💡 <b>操作提示：</b> 按<b>第一下</b>可放大並置中該節點；在置中狀態下按<b>第二下</b>將彈出 3D 問題卡片！",
+        u2Guide: "💡 <b>操作提示：</b> 拖拉空白位置可移動心智圖；按<b>第一下</b>可放大置中該節點（約佔 6 成畫面）；在置中狀態下按<b>第二下</b>將彈出 3D 問題卡片！",
         btnResetMap: "重置中心視角",
-        u3Header: "應用題大挑戰 (Contextual Practice)",
-        lblYourAns: "你的答案：",
-        btnSubmit: "提交答案",
-        btnHint: "💡 提示",
-        btnNextQ: "下一題 ➡️",
         estLabel: "估計平均: ",
         itemPrefix: "項 ",
         itemOptionText: " 個項目",
@@ -449,13 +382,7 @@
         cardFrontBadge: "點擊卡片翻轉查看解答",
         cardFrontFooter: "🔄 點擊卡片翻面 | 點擊空白處退出",
         cardBackBadge: "核心概念解說",
-        cardBackFooter: "🔄 點擊卡片再次翻面 | 點擊空白處退出",
-        btnQtype1: "題型一：基本求平均數",
-        btnQtype2: "題型二：已知平均求總和",
-        btnQtype3: "題型三：逆向求未知數據",
-        lblQuizCompleted: "已完成：",
-        quizInputPlaceholder: "請輸入正數",
-        lblQuizHintTitle: "💡 解題提示："
+        cardBackFooter: "🔄 點擊卡片再次翻面 | 點擊空白處退出"
       },
       en: {
         headerTitle: "Averages Concept Tool",
@@ -463,36 +390,33 @@
         langBtn: "繁體中文",
         navHome: "Home Menu",
         homeTitle: "Select a Learning Unit",
-        homeDesc: "Master averages through interactive bar leveling animations, 5W1H mindmaps, and HK primary curriculum math problems!",
+        homeDesc: "Master averages through interactive bar leveling animations and 5W1H mindmaps!",
         card1Title: "Unit 1: Visual & Leveling Out",
         card1Desc: "Estimate averages by dragging the line and watch both leveling and sum-divide animations visually.",
         card1Action: "Start Unit 1",
         card2Title: "Unit 2: 5W1H Mindmap",
         card2Desc: "Explore average concepts using interactive 3D flip card nodes for What, Why, How, When, Where, and Notes.",
         card2Action: "Explore Mindmap",
-        card3Title: "Unit 3: Practice Quiz",
-        card3Desc: "Solve HK primary curriculum word problems with instant hints and restricted positive inputs.",
-        card3Action: "Start Practice",
         u1Header: "Visual Concept & Leveling-Out",
-        u1Guide: "💡 <b>Hint:</b> Drag the blue dashed line up/down to estimate average height, or play the interactive animations!",
+        u1Guide: "💡 <b>Hint:</b> Drag the blue line up/down to estimate average height, or expand the options below to adjust bar values!",
         btnNextChart: "New Dataset",
         lblCount: "Item Count:",
         lblStatEst: "Estimated Avg",
+        lblStatSum: "Total Sum",
         lblStatDiff: "Accuracy Rating",
         chkValues: "Show Bar Values",
+        chkTotalSum: "Show Total Sum",
         chkYAxis: "Show Y-Axis",
         chkAnswer: "Show Exact Answer",
         chkFormula: "Show Formula",
         btnLeveling: "Play Leveling Animation",
         btnSumDivide: "Play Sum-Divide Animation",
+        btnSumDividePhase2: "▶️ Click again to Divide",
+        btnClearAnim: "Clear Animation",
+        lblAdjustBars: "🎛️ Adjust Bar Values (Collapsible - Min: 0)",
         u2Header: "5W1H Concept Mindmap",
-        u2Guide: "💡 <b>Hint:</b> Click <b>once</b> to focus/center node; click <b>again</b> to pop up the 3D question flip card!",
+        u2Guide: "💡 <b>Hint:</b> Drag empty space to pan mindmap. Click <b>once</b> to focus/center node (~60% size); click <b>again</b> to pop up 3D card!",
         btnResetMap: "Reset Center View",
-        u3Header: "Contextual Practice & Word Problems",
-        lblYourAns: "Your Answer:",
-        btnSubmit: "Submit",
-        btnHint: "💡 Hint",
-        btnNextQ: "Next Question ➡️",
         estLabel: "Estimated: ",
         itemPrefix: "Item ",
         itemOptionText: " Items",
@@ -501,13 +425,7 @@
         cardFrontBadge: "Click card to flip & view answer",
         cardFrontFooter: "🔄 Click card to flip | Click background to exit",
         cardBackBadge: "Core Concept Explanation",
-        cardBackFooter: "🔄 Click card to flip back | Click background to exit",
-        btnQtype1: "Type 1: Basic Average",
-        btnQtype2: "Type 2: Find Total Sum",
-        btnQtype3: "Type 3: Unknown / Reverse Score",
-        lblQuizCompleted: "Completed:",
-        quizInputPlaceholder: "Enter positive number",
-        lblQuizHintTitle: "💡 Solution Hint:"
+        cardBackFooter: "🔄 Click card to flip back | Click background to exit"
       }
     };
 
@@ -516,16 +434,17 @@
     /* State Variables for Unit 1 */
     let barValues = [];
     let exactAverage = 0;
-    let userEstimatedVal = 100;
+    let userEstimatedVal = 0;
     let isDragging = false;
     let showBarValues = false;
+    let showTotalSum = false;
     let showYAxis = false;
     let showCorrectAnswer = false;
     let isAnimatingLeveling = false;
+    let sumDividePhase = 0;
 
     const barColors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
 
-    // SVG Coordinate setup
     const svgHeight = 350;
     const svgWidth = 700;
     const chartYBottom = 300;
@@ -552,22 +471,28 @@
       document.getElementById('card2-desc').innerText = t.card2Desc;
       document.getElementById('card2-action').innerText = t.card2Action;
 
-      document.getElementById('card3-title').innerText = t.card3Title;
-      document.getElementById('card3-desc').innerText = t.card3Desc;
-      document.getElementById('card3-action').innerText = t.card3Action;
-
       document.getElementById('u1-header-title').innerText = t.u1Header;
       document.getElementById('u1-guide-text').innerHTML = t.u1Guide;
       document.getElementById('btn-next-chart').innerText = t.btnNextChart;
       document.getElementById('lbl-item-count').innerText = t.lblCount;
       document.getElementById('lbl-stat-estimate').innerText = t.lblStatEst;
+      document.getElementById('lbl-stat-sum').innerText = t.lblStatSum;
       document.getElementById('lbl-stat-diff').innerText = t.lblStatDiff;
       document.getElementById('lbl-chk-show-values').innerText = t.chkValues;
+      document.getElementById('lbl-chk-show-totalsum').innerText = t.chkTotalSum;
       document.getElementById('lbl-chk-show-yaxis').innerText = t.chkYAxis;
       document.getElementById('lbl-chk-show-answer').innerText = t.chkAnswer;
       document.getElementById('lbl-chk-show-formula').innerText = t.chkFormula;
       document.getElementById('btn-leveling-text').innerText = t.btnLeveling;
-      document.getElementById('btn-sumdivide-text').innerText = t.btnSumDivide;
+      
+      if (sumDividePhase === 1) {
+        document.getElementById('btn-sumdivide-text').innerText = t.btnSumDividePhase2;
+      } else {
+        document.getElementById('btn-sumdivide-text').innerText = t.btnSumDivide;
+      }
+      
+      document.getElementById('btn-clear-anim-text').innerText = t.btnClearAnim;
+      document.getElementById('lbl-adjust-bars').innerText = t.lblAdjustBars;
       
       document.getElementById('modal-formula-title').innerText = t.modalFormulaTitle;
       document.getElementById('modal-close-btn').innerText = t.modalClose;
@@ -580,19 +505,6 @@
       document.getElementById('card-back-badge').innerText = t.cardBackBadge;
       document.getElementById('card-back-footer').innerText = t.cardBackFooter;
 
-      document.getElementById('u3-header-title').innerText = t.u3Header;
-      document.getElementById('lbl-answer-input').innerText = t.lblYourAns;
-      document.getElementById('btn-quiz-submit').innerText = t.btnSubmit;
-      document.getElementById('btn-quiz-hint').innerText = t.btnHint;
-      document.getElementById('btn-quiz-next').innerText = t.btnNextQ;
-      document.getElementById('btn-qtype-1').innerText = t.btnQtype1;
-      document.getElementById('btn-qtype-2').innerText = t.btnQtype2;
-      document.getElementById('btn-qtype-3').innerText = t.btnQtype3;
-      document.getElementById('lbl-quiz-completed').innerText = t.lblQuizCompleted;
-      document.getElementById('quiz-user-input').placeholder = t.quizInputPlaceholder;
-      document.getElementById('lbl-quiz-hint-title').innerText = t.lblQuizHintTitle;
-
-      // Update select element options text
       const select = document.getElementById('select-bar-count');
       if (select) {
         for (let i = 0; i < select.options.length; i++) {
@@ -601,20 +513,15 @@
         }
       }
 
-      // Update quiz count badge
-      document.getElementById('quiz-score-badge').innerText = currentLang === 'zh' ? `${solvedQuizCount} 題` : `${solvedQuizCount} Solved`;
-
       updateChartLabels();
-      buildMindmapCoordinates();
+      renderTeacherBarInputs();
       renderMindmap();
-      renderQuizQuestion();
     }
 
     function switchTab(tabId) {
       document.getElementById('page-home').classList.add('hidden');
       document.getElementById('page-unit1').classList.add('hidden');
       document.getElementById('page-unit2').classList.add('hidden');
-      document.getElementById('page-unit3').classList.add('hidden');
 
       document.getElementById(`page-${tabId}`).classList.remove('hidden');
 
@@ -622,14 +529,13 @@
         initUnit1();
       } else if (tabId === 'unit2') {
         initUnit2();
-      } else if (tabId === 'unit3') {
-        initUnit3();
       }
     }
 
     function initUnit1() {
       setupDragEvents();
       document.getElementById('chk-show-values').checked = false;
+      document.getElementById('chk-show-totalsum').checked = false;
       document.getElementById('chk-show-yaxis').checked = false;
       document.getElementById('chk-show-answer').checked = false;
       document.getElementById('chk-show-formula').checked = false;
@@ -637,10 +543,10 @@
     }
 
     function generateNewChart() {
-      isAnimatingLeveling = false;
-      document.getElementById('animation-blocks-group').innerHTML = '';
+      clearAnimation();
       
       showBarValues = document.getElementById('chk-show-values').checked;
+      showTotalSum = document.getElementById('chk-show-totalsum').checked;
       showYAxis = document.getElementById('chk-show-yaxis').checked;
       showCorrectAnswer = document.getElementById('chk-show-answer').checked;
       
@@ -656,24 +562,61 @@
       let sum = 0;
 
       for (let i = 0; i < count - 1; i++) {
-        let val = Math.floor(Math.random() * 24 + 4) * 5; // 20 to 140
+        let val = Math.floor(Math.random() * 24 + 4) * 5;
         barValues.push(val);
         sum += val;
       }
-      let targetAvg = Math.floor(Math.random() * 16 + 12) * 5; // 60 to 140
+      let targetAvg = Math.floor(Math.random() * 16 + 12) * 5;
       let lastVal = targetAvg * count - sum;
       
-      if (lastVal < 20 || lastVal > 180) {
+      if (lastVal < 0 || lastVal > 190) {
         return generateNewChart();
       }
       barValues.push(lastVal);
-      exactAverage = targetAvg;
-      userEstimatedVal = Math.floor(targetAvg / 10) * 10;
+      recalculateAverage();
+      userEstimatedVal = 0;
 
       renderChartGrid();
       renderBars();
+      renderTeacherBarInputs();
       updateUserLinePosition();
       updateCorrectLinePosition();
+      updateTotalSumDisplay();
+    }
+
+    function recalculateAverage() {
+      let sum = barValues.reduce((a, b) => a + b, 0);
+      exactAverage = parseFloat((sum / barValues.length).toFixed(1));
+    }
+
+    function renderTeacherBarInputs() {
+      const container = document.getElementById('bar-inputs-container');
+      container.innerHTML = '';
+
+      barValues.forEach((val, idx) => {
+        let itemLabel = `${i18n[currentLang].itemPrefix}${String.fromCharCode(65 + idx)}`;
+        let box = document.createElement('div');
+        box.className = 'flex items-center space-x-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-300 shadow-sm';
+        box.innerHTML = `
+          <span class="font-bold text-xs text-slate-600">${itemLabel}:</span>
+          <input type="number" min="0" max="200" value="${val}" onchange="updateBarValueFromInput(${idx}, this.value)" class="w-16 font-extrabold text-brand-600 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5 text-center text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function updateBarValueFromInput(index, value) {
+      let numericVal = Math.max(0, parseFloat(value) || 0);
+      barValues[index] = numericVal;
+      recalculateAverage();
+      renderBars();
+      updateUserLinePosition();
+      updateCorrectLinePosition();
+      updateTotalSumDisplay();
+      
+      if (document.getElementById('chk-show-formula').checked) {
+        toggleShowFormula(true);
+      }
     }
 
     function valToY(val) {
@@ -721,8 +664,7 @@
       const count = barValues.length;
       const totalWidth = 560;
       const barWidth = Math.min(65, totalWidth / (count * 1.6));
-      const totalBarSpace = barWidth * count;
-      const gap = (totalWidth - totalBarSpace) / (count + 1);
+      const gap = (totalWidth - (barWidth * count)) / (count + 1);
 
       barValues.forEach((val, idx) => {
         let x = 70 + gap + idx * (barWidth + gap);
@@ -828,6 +770,24 @@
       });
     }
 
+    function toggleShowTotalSum(checked) {
+      showTotalSum = checked;
+      updateTotalSumDisplay();
+    }
+
+    function updateTotalSumDisplay() {
+      const card = document.getElementById('card-total-sum');
+      const valEl = document.getElementById('val-total-sum');
+      let sum = barValues.reduce((a, b) => a + b, 0);
+
+      if (showTotalSum) {
+        card.classList.remove('hidden');
+        valEl.textContent = sum;
+      } else {
+        card.classList.add('hidden');
+      }
+    }
+
     function toggleYAxis(checked) {
       showYAxis = checked;
       document.getElementById('grid-lines').style.display = checked ? 'block' : 'none';
@@ -890,39 +850,89 @@
     }
 
     function updateAccuracyRating() {
-      const diff = Math.abs(userEstimatedVal - exactAverage);
       const badge = document.getElementById('val-accuracy-badge');
+      const minBar = Math.min(...barValues);
+      const maxBar = Math.max(...barValues);
+      const diff = Math.abs(userEstimatedVal - exactAverage);
 
-      if (!showYAxis) {
-        badge.innerText = currentLang === 'zh' ? '顯示縱軸以評級' : 'Show Y-axis to check';
-        badge.className = 'text-base font-extrabold text-slate-500';
-        return;
+      let letterGrade = 'F';
+
+      if (userEstimatedVal < minBar || userEstimatedVal > maxBar) {
+        letterGrade = 'F';
+      } else if (diff === 0) {
+        letterGrade = 'S';
+      } else if (diff <= 2) {
+        letterGrade = 'A+';
+      } else if (diff <= 5) {
+        letterGrade = 'A';
+      } else if (diff <= 8) {
+        letterGrade = 'A-';
+      } else if (diff <= 12) {
+        letterGrade = 'B+';
+      } else if (diff <= 16) {
+        letterGrade = 'B';
+      } else if (diff <= 20) {
+        letterGrade = 'B-';
+      } else if (diff <= 25) {
+        letterGrade = 'C+';
+      } else if (diff <= 30) {
+        letterGrade = 'C';
+      } else {
+        letterGrade = 'C-';
       }
 
-      if (diff === 0) {
-        badge.innerText = currentLang === 'zh' ? '🎯 神準估算！(0誤差)' : '🎯 Spot On! (0 diff)';
-        badge.className = 'text-base font-extrabold text-emerald-600';
-      } else if (diff <= 5) {
-        badge.innerText = currentLang === 'zh' ? '🌟 極度接近！(±' + diff + ')' : '🌟 Very Close! (±' + diff + ')';
-        badge.className = 'text-base font-extrabold text-blue-600';
-      } else if (diff <= 15) {
-        badge.innerText = currentLang === 'zh' ? '👍 相當不俗！(±' + diff + ')' : '👍 Pretty Good! (±' + diff + ')';
-        badge.className = 'text-base font-extrabold text-amber-600';
+      const labelText = currentLang === 'zh' ? '評級' : 'Grade';
+
+      if (!showYAxis) {
+        badge.innerText = `${labelText}: ${letterGrade}`;
       } else {
-        badge.innerText = currentLang === 'zh' ? '💪 再調整看看 (±' + diff + ')' : '💪 Keep Adjusting (±' + diff + ')';
-        badge.className = 'text-base font-extrabold text-rose-500';
+        badge.innerText = `${labelText}: ${letterGrade} (±${diff.toFixed(1)})`;
+      }
+
+      if (letterGrade === 'S' || letterGrade.startsWith('A')) {
+        badge.className = 'text-xl font-black text-emerald-600';
+      } else if (letterGrade.startsWith('B')) {
+        badge.className = 'text-xl font-black text-amber-600';
+      } else if (letterGrade.startsWith('C')) {
+        badge.className = 'text-xl font-black text-orange-500';
+      } else {
+        badge.className = 'text-xl font-black text-rose-500';
       }
     }
 
-    /* Leveling Out Visual Animation */
+    function clearAnimation() {
+      isAnimatingLeveling = false;
+      sumDividePhase = 0;
+      const animGroup = document.getElementById('animation-blocks-group');
+      if (animGroup) animGroup.innerHTML = '';
+      resetSumDivideButtonState();
+
+      barValues.forEach((_, idx) => {
+        let rect = document.getElementById(`bar-rect-${idx}`);
+        if (rect) rect.setAttribute("opacity", "0.85");
+        let text = document.getElementById(`bar-val-text-${idx}`);
+        if (text && showBarValues) text.classList.remove('hidden');
+      });
+    }
+
+    function resetSumDivideButtonState() {
+      const btnText = document.getElementById('btn-sumdivide-text');
+      if (btnText) {
+        btnText.innerText = i18n[currentLang].btnSumDivide;
+      }
+      const btn = document.getElementById('btn-animate-sumdivide');
+      if (btn) {
+        btn.classList.remove('bg-amber-600', 'hover:bg-amber-700', 'ring-2', 'ring-amber-300');
+        btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+      }
+    }
+
     function runLevelingAnimation() {
-      if (isAnimatingLeveling) return;
+      clearAnimation();
       isAnimatingLeveling = true;
 
       document.getElementById('chk-show-answer').checked = true;
       toggleShowAnswer(true);
-      document.getElementById('chk-show-yaxis').checked = true;
-      toggleYAxis(true);
 
       const animGroup = document.getElementById('animation-blocks-group');
       animGroup.innerHTML = '';
@@ -938,14 +948,45 @@
         let x = 70 + gap + idx * (barWidth + gap);
         let currentY = valToY(val);
 
+        let origRect = document.getElementById(`bar-rect-${idx}`);
+        if (origRect) origRect.setAttribute("opacity", "0");
+        let origText = document.getElementById(`bar-val-text-${idx}`);
+        if (origText) origText.classList.add('hidden');
+
+        let baseHeight = chartYBottom - Math.max(currentY, avgY);
+        let baseBlock = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        baseBlock.setAttribute("x", x);
+        baseBlock.setAttribute("y", Math.max(currentY, avgY));
+        baseBlock.setAttribute("width", barWidth);
+        baseBlock.setAttribute("height", baseHeight);
+        baseBlock.setAttribute("fill", barColors[idx % barColors.length]);
+        baseBlock.setAttribute("rx", "4");
+        animGroup.appendChild(baseBlock);
+
         if (val > exactAverage) {
           let excessHeight = avgY - currentY;
+          
+          let phantom = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          phantom.setAttribute("x", x);
+          phantom.setAttribute("y", currentY);
+          phantom.setAttribute("width", barWidth);
+          phantom.setAttribute("height", excessHeight);
+          phantom.setAttribute("fill", "transparent");
+          phantom.setAttribute("stroke", barColors[idx % barColors.length]);
+          phantom.setAttribute("stroke-width", "2");
+          phantom.setAttribute("stroke-dasharray", "4,4");
+          phantom.setAttribute("rx", "4");
+          animGroup.appendChild(phantom);
+
           let block = document.createElementNS("http://www.w3.org/2000/svg", "rect");
           block.setAttribute("x", x);
           block.setAttribute("y", currentY);
           block.setAttribute("width", barWidth);
           block.setAttribute("height", excessHeight);
-          block.setAttribute("fill", "#f59e0b");
+          block.setAttribute("fill", "transparent");
+          block.setAttribute("stroke", barColors[idx % barColors.length]);
+          block.setAttribute("stroke-width", "2");
+          block.setAttribute("stroke-dasharray", "4,4");
           block.setAttribute("rx", "4");
           block.setAttribute("class", "leveling-block");
           animGroup.appendChild(block);
@@ -954,7 +995,8 @@
             block.setAttribute("y", avgY);
             block.setAttribute("height", "0");
             block.setAttribute("opacity", "0");
-          }, 100);
+          }, 150);
+
         } else if (val < exactAverage) {
           let deficitHeight = currentY - avgY;
           let fillBlock = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -962,16 +1004,24 @@
           fillBlock.setAttribute("y", avgY);
           fillBlock.setAttribute("width", barWidth);
           fillBlock.setAttribute("height", "0");
-          fillBlock.setAttribute("fill", "#10b981");
+          fillBlock.setAttribute("fill", "transparent");
+          fillBlock.setAttribute("stroke", "#10b981");
+          fillBlock.setAttribute("stroke-width", "2");
+          fillBlock.setAttribute("stroke-dasharray", "4,4");
           fillBlock.setAttribute("rx", "4");
-          fillBlock.setAttribute("opacity", "0.4");
           fillBlock.setAttribute("class", "leveling-block");
           animGroup.appendChild(fillBlock);
 
           setTimeout(() => {
             fillBlock.setAttribute("height", deficitHeight);
-            fillBlock.setAttribute("opacity", "0.85");
-          }, 300);
+            
+            setTimeout(() => {
+              fillBlock.setAttribute("fill", "#10b981");
+              fillBlock.removeAttribute("stroke");
+              fillBlock.removeAttribute("stroke-dasharray");
+              fillBlock.setAttribute("opacity", "0.85");
+            }, 600);
+          }, 350);
         }
       });
 
@@ -980,588 +1030,632 @@
       }, 1200);
     }
 
-    /* Fixed "加總再分" Animation so stacked blocks stay within top bounds */
     function runSumDivideAnimation() {
-      if (isAnimatingLeveling) return;
-      isAnimatingLeveling = true;
-
-      document.getElementById('chk-show-answer').checked = true;
-      toggleShowAnswer(true);
-      document.getElementById('chk-show-yaxis').checked = true;
-      toggleYAxis(true);
+      if (isAnimatingLeveling && sumDividePhase === 0) return;
 
       const animGroup = document.getElementById('animation-blocks-group');
-      animGroup.innerHTML = '';
-
       const count = barValues.length;
       const totalWidth = 560;
       const barWidth = Math.min(65, totalWidth / (count * 1.6));
       const gap = (totalWidth - (barWidth * count)) / (count + 1);
-      const stackX = 70 + gap + 0 * (barWidth + gap);
+      const stackX = 70 + gap;
 
-      let createdBlocks = [];
-      let totalSumVal = barValues.reduce((a, b) => a + b, 0);
+      if (sumDividePhase === 0) {
+        clearAnimation();
+        isAnimatingLeveling = true;
+        sumDividePhase = 1;
 
-      let maxStackHeight = chartYBottom - 30;
-      let rawStackHeight = (totalSumVal / maxDataVal) * (chartYBottom - chartYTop);
-      let stackScaleFactor = rawStackHeight > maxStackHeight ? (maxStackHeight / rawStackHeight) : 1;
+        document.getElementById('chk-show-answer').checked = true;
+        toggleShowAnswer(true);
 
-      barValues.forEach((val, idx) => {
-        let x = 70 + gap + idx * (barWidth + gap);
-        let barH = (val / maxDataVal) * (chartYBottom - chartYTop);
-        let origY = chartYBottom - barH;
+        const btnText = document.getElementById('btn-sumdivide-text');
+        if (btnText) {
+          btnText.innerText = i18n[currentLang].btnSumDividePhase2;
+        }
+        const btn = document.getElementById('btn-animate-sumdivide');
+        if (btn) {
+          btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+          btn.classList.add('bg-amber-600', 'hover:bg-amber-700', 'ring-2', 'ring-amber-300');
+        }
 
-        let block = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        block.setAttribute("x", x);
-        block.setAttribute("y", origY);
-        block.setAttribute("width", barWidth);
-        block.setAttribute("height", barH);
-        block.setAttribute("fill", barColors[idx % barColors.length]);
-        block.setAttribute("rx", "4");
-        block.setAttribute("opacity", "0.85");
-        block.setAttribute("class", "leveling-block");
-        animGroup.appendChild(block);
+        let totalSumVal = barValues.reduce((a, b) => a + b, 0);
+        let maxStackHeight = chartYBottom - 30;
+        let rawStackHeight = (totalSumVal / maxDataVal) * (chartYBottom - chartYTop);
+        let stackScaleFactor = rawStackHeight > maxStackHeight ? (maxStackHeight / rawStackHeight) : 1;
 
-        createdBlocks.push({ el: block, val: val, h: barH, origX: x });
-      });
-
-      setTimeout(() => {
-        let accumulatedY = chartYBottom;
-        createdBlocks.forEach((item) => {
-          let scaledH = item.h * stackScaleFactor;
-          accumulatedY -= scaledH;
-          item.el.setAttribute("x", stackX);
-          item.el.setAttribute("y", accumulatedY);
-          item.el.setAttribute("height", scaledH);
+        barValues.forEach((val, idx) => {
+          let origRect = document.getElementById(`bar-rect-${idx}`);
+          if (origRect) origRect.setAttribute("opacity", "0");
+          let origText = document.getElementById(`bar-val-text-${idx}`);
+          if (origText) origText.classList.add('hidden');
         });
-      }, 150);
 
-      setTimeout(() => {
+        barValues.forEach((val, idx) => {
+          let x = 70 + gap + idx * (barWidth + gap);
+          let barH = (val / maxDataVal) * (chartYBottom - chartYTop);
+          let origY = chartYBottom - barH;
+
+          let block = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          block.setAttribute("id", `sum-block-${idx}`);
+          block.setAttribute("x", x);
+          block.setAttribute("y", origY);
+          block.setAttribute("width", barWidth);
+          block.setAttribute("height", barH);
+          block.setAttribute("fill", "#10b981");
+          block.setAttribute("rx", "4");
+          block.setAttribute("opacity", "0.9");
+          block.setAttribute("class", "leveling-block");
+          animGroup.appendChild(block);
+        });
+
+        setTimeout(() => {
+          let accumulatedY = chartYBottom;
+          barValues.forEach((val, idx) => {
+            let barH = (val / maxDataVal) * (chartYBottom - chartYTop);
+            let scaledH = barH * stackScaleFactor;
+            accumulatedY -= scaledH;
+
+            let block = document.getElementById(`sum-block-${idx}`);
+            if (block) {
+              block.setAttribute("x", stackX);
+              block.setAttribute("y", accumulatedY);
+              block.setAttribute("height", scaledH);
+            }
+          });
+
+          setTimeout(() => {
+             isAnimatingLeveling = false; 
+          }, 700);
+        }, 100);
+
+      } else if (sumDividePhase === 1) {
+        isAnimatingLeveling = true;
+        sumDividePhase = 0;
+        resetSumDivideButtonState();
+
         let targetH = (exactAverage / maxDataVal) * (chartYBottom - chartYTop);
         let targetY = chartYBottom - targetH;
 
-        createdBlocks.forEach((item, idx) => {
+        barValues.forEach((_, idx) => {
           let finalX = 70 + gap + idx * (barWidth + gap);
-          item.el.setAttribute("x", finalX);
-          item.el.setAttribute("y", targetY);
-          item.el.setAttribute("height", targetH);
-          item.el.setAttribute("fill", "#10b981");
+          let block = document.getElementById(`sum-block-${idx}`);
+          if (block) {
+            block.setAttribute("x", finalX);
+            block.setAttribute("y", targetY);
+            block.setAttribute("height", targetH);
+          }
         });
-      }, 1300);
 
-      setTimeout(() => {
-        isAnimatingLeveling = false;
-      }, 2400);
+        setTimeout(() => {
+          isAnimatingLeveling = false;
+        }, 800);
+      }
     }
 
     function setupDragEvents() {
-      const wrapper = document.getElementById('chart-wrapper');
       const svg = document.getElementById('chart-svg');
+      const touchArea = document.getElementById('user-line-touch-area');
 
-      function getSvgY(clientY) {
-        let rect = svg.getBoundingClientRect();
-        let scaleY = svgHeight / rect.height;
-        return (clientY - rect.top) * scaleY;
-      }
-
-      function handleStart(e) {
+      const startDrag = (e) => {
         isDragging = true;
-        let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        let svgY = getSvgY(clientY);
-        userEstimatedVal = yToVal(svgY);
-        updateUserLinePosition();
-      }
+        updateDragPos(e);
+      };
 
-      function handleMove(e) {
+      const doDrag = (e) => {
         if (!isDragging) return;
-        if (e.cancelable) e.preventDefault();
-        let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        let svgY = getSvgY(clientY);
-        userEstimatedVal = yToVal(svgY);
-        updateUserLinePosition();
-      }
+        e.preventDefault();
+        updateDragPos(e);
+      };
 
-      function handleEnd() {
+      const endDrag = () => {
         isDragging = false;
-      }
+      };
 
-      wrapper.addEventListener('mousedown', handleStart);
-      window.addEventListener('mousemove', handleMove);
-      window.addEventListener('mouseup', handleEnd);
+      touchArea.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', doDrag);
+      document.addEventListener('mouseup', endDrag);
 
-      wrapper.addEventListener('touchstart', handleStart, { passive: false });
-      window.addEventListener('touchmove', handleMove, { passive: false });
-      window.addEventListener('touchend', handleEnd);
+      touchArea.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        updateDragPos(e.touches[0]);
+      }, { passive: false });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        updateDragPos(e.touches[0]);
+      }, { passive: false });
+
+      document.addEventListener('touchend', endDrag);
     }
 
-    /* Unit 2: 5W1H Mindmap Dual-Language Data */
-    const mindmapData = {
-      id: "root",
-      textZh: "平均數",
-      textEn: "Averages",
-      color: "#1e3a8a",
-      textColor: "#ffffff",
-      r: 60,
-      questionZh: "什麼是平均數的概念？",
-      questionEn: "What is the concept of Average?",
-      detailZh: "【平均數】代表一組數據的集中趨勢，是把數據「平鋪」或「移多補少」後所得出的代表數值。",
-      detailEn: "【Average】represents the central tendency of a data set, summarizing multiple values into a single representative value.",
-      children: [
-        {
-          id: "w1", textZh: "甚麼\n(What)", textEn: "What", color: "#2563eb", textColor: "#ffffff", r: 45,
-          questionZh: "甚麼是平均數？", questionEn: "What is Average?",
-          detailZh: "【甚麼是平均數？】平均數是以一個數值來表達整組數據的整體狀況與集中趨勢。",
-          detailEn: "【What is Average?】A single representative number that expresses the overall level of a data set.",
-          children: [
-            { id: "w1_1", textZh: "集中趨勢\n代表數", textEn: "Central\nTendency", color: "#3b82f6", textColor: "#ffffff", r: 30, questionZh: "甚麼是數據的「集中趨勢」？", questionEn: "What is Central Tendency?", detailZh: "【集中趨勢】反映數值大多集中在哪個水平，是統計學的核心基礎。", detailEn: "【Central Tendency】Reflects where most values cluster in a distribution." },
-            { id: "w1_2", textZh: "平滑化\n整體數據", textEn: "Data\nSmoothing", color: "#3b82f6", textColor: "#ffffff", r: 30, questionZh: "如何透過平均數「平滑化」整體數據？", questionEn: "How does average smooth data?", detailZh: "【平滑化數據】消除單一數據的極端波動，以一個穩定的數值代表整體。", detailEn: "【Data Smoothing】Eliminates fluctuations of individual data points to represent the whole stably." },
-            { id: "w1_3", textZh: "單一數值\n概括全貌", textEn: "Summarize\nin One Value", color: "#3b82f6", textColor: "#ffffff", r: 30, questionZh: "如何用一個數值概括整體數據？", questionEn: "How to summarize data in one value?", detailZh: "【概括全貌】平均數將多個繁雜數據簡化為一個代表數，方便簡明描述總體表現。", detailEn: "【Summarizing All】Simplifies multiple raw data into one key representative number." }
-          ]
-        },
-        {
-          id: "w2", textZh: "為何\n(Why)", textEn: "Why", color: "#059669", textColor: "#ffffff", r: 45,
-          questionZh: "為什麼要計算平均數？", questionEn: "Why calculate Average?",
-          detailZh: "【為何要計算平均數？】方便公平比較不同人數或規模的組別表現。",
-          detailEn: "【Why calculate?】Enables fair comparisons between groups of different sizes.",
-          children: [
-            { id: "w2_1", textZh: "公平比較\n異組表現", textEn: "Fair\nComparison", color: "#10b981", textColor: "#ffffff", r: 30, questionZh: "為什麼平均數能公平比較不同人數的組別？", questionEn: "Why enable fair comparisons?", detailZh: "【公平比較】例如：比較人數不同的兩班考試成績，用平均分最公平！", detailEn: "【Fair Comparison】E.g., comparing test results between classes with different student counts." },
-            { id: "w2_2", textZh: "宏觀預測\n未來趨勢", textEn: "Predict\nTrends", color: "#10b981", textColor: "#ffffff", r: 30, questionZh: "如何利用平均數預測未來趨勢？", questionEn: "How to predict future trends?", detailZh: "【預測趨勢】透過過往的平均表現，可以推估未來的合理發展範圍。", detailEn: "【Trend Prediction】Using past average performance to estimate reasonable future ranges." },
-            { id: "w2_3", textZh: "消除個體\n隨機波動", textEn: "Reduce\nRandom Noise", color: "#10b981", textColor: "#ffffff", r: 30, questionZh: "為何平均數能消除隨機誤差與波動？", questionEn: "Why cancel out random fluctuations?", detailZh: "【消除波動】透過計算總體平均，個別偶然出現的偏高或偏低數值會被相互抵銷。", detailEn: "【Reducing Noise】Individual random fluctuations cancel out when aggregated." }
-          ]
-        },
-        {
-          id: "w3", textZh: "如何\n(How)", textEn: "How", color: "#d97706", textColor: "#ffffff", r: 45,
-          questionZh: "如何計算平均數與總和？", questionEn: "How to calculate Average & Total?",
-          detailZh: "【如何計算？】基本公式：平均數 = 數據總和 ÷ 數據個數。",
-          detailEn: "【How to calculate?】Core Formula: Average = Total Sum ÷ Number of Items.",
-          children: [
-            { id: "w3_1", textZh: "總和 ÷ 個數\n= 平均數", textEn: "Sum ÷ Count\n= Average", color: "#f59e0b", textColor: "#ffffff", r: 30, questionZh: "平均數的基本計算公式是什麼？", questionEn: "What is the core formula?", detailZh: "【核心公式】平均數 = 數據總和 ÷ 數據個數。先求和，再作除法！", detailEn: "【Core Formula】Average = Total Sum ÷ Number of Items." },
-            { id: "w3_2", textZh: "平均數 × 個數\n= 總和", textEn: "Average × Count\n= Total Sum", color: "#f59e0b", textColor: "#ffffff", r: 30, questionZh: "如何由平均數逆向求出數據總和？", questionEn: "How to find total from average?", detailZh: "【逆向公式】總和 = 平均數 × 數據個數，常用於求未知分數題型。", detailEn: "【Reverse Formula】Total Sum = Average × Number of Items." },
-            { id: "w3_3", textZh: "移多補少\n削高填低", textEn: "Leveling Out\nMethod", color: "#f59e0b", textColor: "#ffffff", r: 30, questionZh: "什麼是「移多補少」的視覺解法？", questionEn: "What is Leveling Out method?", detailZh: "【移多補少】把數據較多的部分移到較少的部分，使所有項目達到相同高度。", detailEn: "【Leveling Out】Moving surplus from higher values to fill deficits in lower ones." }
-          ]
-        },
-        {
-          id: "w4", textZh: "何時\n(When)", textEn: "When", color: "#7c3aed", textColor: "#ffffff", r: 45,
-          questionZh: "何時會用到平均數？", questionEn: "When to use Average?",
-          detailZh: "【何時使用？】當需要評估一段時間或一組物件的常規平均水平時使用。",
-          detailEn: "【When to use?】When evaluating general performance levels across time or items.",
-          children: [
-            { id: "w4_1", textZh: "測驗平均分\n每日支出", textEn: "Test Scores &\nDaily Expenses", color: "#8b5cf6", textColor: "#ffffff", r: 30, questionZh: "日常生活中有哪些計算平均數的例子？", questionEn: "Examples in daily life?", detailZh: "【生活應用】計算各科平均分、一星期每日平均零用錢支出或溫習時間。", detailEn: "【Daily Life】Calculating test subject averages, average pocket money, or study hours." },
-            { id: "w4_2", textZh: "評估整體\n長期表現", textEn: "Evaluate Long-\nterm Results", color: "#8b5cf6", textColor: "#ffffff", r: 30, questionZh: "如何用平均數評估長期表現？", questionEn: "How to evaluate long-term results?", detailZh: "【評估整體表現】例如學期末計算各科總平均，評估整學期的學習成果。", detailEn: "【Overall Evaluation】e.g., calculating the final GPA to evaluate the whole semester's learning outcomes." },
-            { id: "w4_3", textZh: "比較同類\n跨期數據", textEn: "Compare Across\nTime Periods", color: "#8b5cf6", textColor: "#ffffff", r: 30, questionZh: "何時適合用平均數比較不同時期的表現？", questionEn: "When to compare across periods?", detailZh: "【跨期比較】例如比較本月與上月的每日平均用水量，評估節約效果。", detailEn: "【Cross-period Comparison】Comparing daily average water usage across months to measure conservation." }
-          ]
-        },
-        {
-          id: "w5", textZh: "何地/誰\n(Where/Who)", textEn: "Where/Who", color: "#0891b2", textColor: "#ffffff", r: 45,
-          questionZh: "平均數應用於哪些實際領域？", questionEn: "Where is Average applied?",
-          detailZh: "【何處與何人應用？】廣泛應用於氣象預報、體育賽事、經濟新聞等。",
-          detailEn: "【Where/Who applies it?】Widely used in weather reports, sports stats, and financial reports.",
-          children: [
-            { id: "w5_1", textZh: "平均氣溫\n球員平均得分", textEn: "Weather Stats &\nSports Points", color: "#06b6d4", textColor: "#ffffff", r: 30, questionZh: "氣象與體育賽事如何運用平均數？", questionEn: "How is it used in sports & weather?", detailZh: "【實際領域】例如：香港每月平均雨量、籃球員每場平均得分與籃板數。", detailEn: "【Real World】E.g., monthly rainfall averages or basketball points per game." },
-            { id: "w5_2", textZh: "商業大數據\n銷售分析", textEn: "Business &\nBig Data", color: "#06b6d4", textColor: "#ffffff", r: 30, questionZh: "商業與大數據如何分析平均數？", questionEn: "How do businesses analyze averages?", detailZh: "【商業分析】企業及大數據常常使用平均數來分析客單價、平均銷售額等。", detailEn: "【Business Data】Companies often use averages to analyze indicators like average transaction value." },
-            { id: "w5_3", textZh: "政府統計\n人均收入", textEn: "Government &\nPer Capita Data", color: "#06b6d4", textColor: "#ffffff", r: 30, questionZh: "政府社會統計如何運用「人均」數據？", questionEn: "How is per-capita data used?", detailZh: "【人均數據】政府計算「人均GDP」或「人均居住面積」，反映社會總體生活水平。", detailEn: "【Per Capita Metrics】Government uses per-capita GDP/housing area to assess standard of living." }
-          ]
-        },
-        {
-          id: "w6", textZh: "注意\n(Note)", textEn: "Notes", color: "#dc2626", textColor: "#ffffff", r: 45,
-          questionZh: "使用平均數時有甚麼需要特別注意？", questionEn: "What are the pitfalls of Average?",
-          detailZh: "【注意事項】極端值會顯著拉高/拉低平均數；平均數不一定是原數據中的數值！",
-          detailEn: "【Key Pitfalls】Outliers distort averages; the average is not necessarily one of the raw data values!",
-          children: [
-            { id: "w6_1", textZh: "受極端值\n影響極大", textEn: "Distorted by\nOutliers", color: "#ef4444", textColor: "#ffffff", r: 30, questionZh: "為什麼極端值會對平均數產生巨大影響？", questionEn: "Why do outliers affect average?", detailZh: "【極端值影響】若數據中有極大或極小的數字，平均數可能無法代表一般情況。", detailEn: "【Outlier Impact】Extremely high or low values heavily distort the average." },
-            { id: "w6_2", textZh: "不一定是\n真實數值", textEn: "Not Always a\nReal Value", color: "#ef4444", textColor: "#ffffff", r: 30, questionZh: "為什麼平均數不一定是原數據中的數值？", questionEn: "Why average may not exist in data?", detailZh: "【非真實數值】例如「平均每個家庭有1.5個小孩」，1.5並非現實存在的整數人數！", detailEn: "【Not a Real Value】e.g., 'Average 1.5 children per family' - 1.5 is not a possible whole person!" },
-            { id: "w6_3", textZh: "數據個數\n不可為零", textEn: "Count Cannot\nBe Zero", color: "#ef4444", textColor: "#ffffff", r: 30, questionZh: "計算平均數時數據個數可以為 0 嗎？", questionEn: "Can item count be zero?", detailZh: "【除數不為零】數據總個數必須是大於 0 的正整數，否則數學上除數為零無意義。", detailEn: "【Non-zero Divisor】The count of items must be greater than zero for division to be valid." }
-          ]
-        }
-      ]
-    };
+    function updateDragPos(e) {
+      const svg = document.getElementById('chart-svg');
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      
+      userEstimatedVal = yToVal(svgP.y);
+      updateUserLinePosition();
+    }
 
-    let flatMindmapNodes = [];
-    let mapPanX = 0;
-    let mapPanY = 0;
-    let mapScale = 1;
+    /* Unit 2: 心智圖數據與排版 */
+    const mindmapData = [
+      // 中心節點 (Navy Blue)
+      {
+        id: 'center',
+        label: { zh: '平均數', en: 'Averages' },
+        cx: 500, cy: 350, r: 65,
+        color: '#1d4ed8',
+        title: { zh: '平均數 (Averages)', en: 'Averages Concept' },
+        desc: { zh: '平均數是代表一組數據整體集中趨勢的代表數值。', en: 'An average represents the overall central tendency of a dataset.' },
+        isCenter: true
+      },
+
+      // 1. 甚麼 (What) - 頂部藍色分支
+      {
+        id: 'what',
+        parentId: 'center',
+        label: { zh: '甚麼\n(What)', en: 'What' },
+        cx: 500, cy: 220, r: 45,
+        color: '#2563eb',
+        title: { zh: '甚麼 (What) - 平均數的定義', en: 'What is Average?' },
+        desc: { zh: '平均數是一個用來代表一組數據「一般水平」的數值。它能把不均勻的數字變得「公平」和「均勻」。', en: 'An average represents the typical or middle value of a dataset.' }
+      },
+      {
+        id: 'what-sub1',
+        parentId: 'what',
+        label: { zh: '集中趨勢\n代表數', en: 'Central\nTendency' },
+        cx: 410, cy: 100, r: 32,
+        color: '#3b82f6',
+        title: { zh: '集中趨勢代表數', en: 'Representative Value' },
+        desc: { zh: '平均數反映一組數據集中在何處，代表整組數據的總體集中趨勢。', en: 'Reflects the central value around which data points cluster.' }
+      },
+      {
+        id: 'what-sub2',
+        parentId: 'what',
+        label: { zh: '平攤數據\n消除差異', en: 'Equalize\nValues' },
+        cx: 500, cy: 70, r: 32,
+        color: '#3b82f6',
+        title: { zh: '平攤數據與消除差異', en: 'Equalizing Differences' },
+        desc: { zh: '把多出的部分平攤給較少的部分，消除個體差異，達到相同的高度。', en: 'Spreads excess values to smaller ones to equalize all items.' }
+      },
+      {
+        id: 'what-sub3',
+        parentId: 'what',
+        label: { zh: '單一數值\n概括全貌', en: 'Summarize\nDataset' },
+        cx: 590, cy: 100, r: 32,
+        color: '#3b82f6',
+        title: { zh: '單一數值概括全貌', en: 'Single Value Overview' },
+        desc: { zh: '用一個數值快速概括龐大數據的總體水平，簡化分析。', en: 'Summarizes a large dataset with a single representative figure.' }
+      },
+
+      // 2. 為何 (Why) - 右上方綠色分支
+      {
+        id: 'why',
+        parentId: 'center',
+        label: { zh: '為何\n(Why)', en: 'Why' },
+        cx: 690, cy: 230, r: 45,
+        color: '#059669',
+        title: { zh: '為何 (Why) - 使用平均數的原因', en: 'Why use Averages?' },
+        desc: { zh: '當我們有許多不同數據時，平均數能幫我們總結整體情況，方便進行跨組別或跨時間的比較。', en: 'Summarizes multiple numbers into one value for easy comparison.' }
+      },
+      {
+        id: 'why-sub1',
+        parentId: 'why',
+        label: { zh: '公平比較\n異組表現', en: 'Fair\nComparison' },
+        cx: 810, cy: 130, r: 32,
+        color: '#10b981',
+        title: { zh: '公平比較異組表現', en: 'Fair Group Comparison' },
+        desc: { zh: '即使兩組數據的人數或總數不同，也能透過平均數進行公平比較。', en: 'Allows fair comparisons between groups even if sample sizes differ.' }
+      },
+      {
+        id: 'why-sub2',
+        parentId: 'why',
+        label: { zh: '宏觀預測\n未來趨勢', en: 'Forecast\nTrends' },
+        cx: 870, cy: 220, r: 32,
+        color: '#10b981',
+        title: { zh: '宏觀預測未來趨勢', en: 'Predict Future Trends' },
+        desc: { zh: '根據過往的平均表現，可以預測未來的需求、銷量或成績走向。', en: 'Uses historical average performance to predict future outcomes.' }
+      },
+      {
+        id: 'why-sub3',
+        parentId: 'why',
+        label: { zh: '消除個體\n隨機波動', en: 'Reduce\nNoise' },
+        cx: 880, cy: 310, r: 32,
+        color: '#10b981',
+        title: { zh: '消除個體隨機波動', en: 'Smooth Out Fluctuations' },
+        desc: { zh: '單一數據的起伏可能只是偶然，平均數能平滑日常波動，呈現真實趨勢。', en: 'Smooths out random fluctuations to reveal the underlying trend.' }
+      },
+
+      // 3. 如何 (How) - 右下方橙色分支
+      {
+        id: 'how',
+        parentId: 'center',
+        label: { zh: '如何\n(How)', en: 'How' },
+        cx: 690, cy: 470, r: 45,
+        color: '#d97706',
+        title: { zh: '如何 (How) - 平均數的計算方法', en: 'How to calculate Averages?' },
+        desc: { zh: '公式：平均數 = 數據總和 ÷ 數據個數 (Total Sum ÷ Count)', en: 'Formula: Average = Total Sum of all values ÷ Number of values' }
+      },
+      {
+        id: 'how-sub1',
+        parentId: 'how',
+        label: { zh: '總和 ÷ 個數\n= 平均數', en: 'Sum ÷ Count\n= Average' },
+        cx: 880, cy: 390, r: 32,
+        color: '#f59e0b',
+        title: { zh: '求平均數的基本公式', en: 'Basic Formula for Average' },
+        desc: { zh: '將所有數據加起來求出總和，再除以數據的總項數。', en: 'Add all numbers together and divide by the total count.' }
+      },
+      {
+        id: 'how-sub2',
+        parentId: 'how',
+        label: { zh: '平均數 × 個數\n= 總和', en: 'Average × Count\n= Sum' },
+        cx: 870, cy: 480, r: 32,
+        color: '#f59e0b',
+        title: { zh: '由平均數反求總和', en: 'Calculate Total Sum' },
+        desc: { zh: '已知平均數與項目數量時，將兩者相乘即可還原所有數據的總和。', en: 'Multiply average by count to find the original total sum.' }
+      },
+      {
+        id: 'how-sub3',
+        parentId: 'how',
+        label: { zh: '移多補少\n削高填低', en: 'Leveling\nOut' },
+        cx: 810, cy: 570, r: 32,
+        color: '#f59e0b',
+        title: { zh: '移多補少與削高填低', en: 'Leveling Out Method' },
+        desc: { zh: '把較高的部分剪下補到較低的地方，直觀地將所有數值填平。', en: 'Move excess from taller bars to fill shorter bars until equal.' }
+      },
+
+      // 4. 何時 (When) - 底部紫色分支
+      {
+        id: 'when',
+        parentId: 'center',
+        label: { zh: '何時\n(When)', en: 'When' },
+        cx: 500, cy: 480, r: 45,
+        color: '#7c3aed',
+        title: { zh: '何時 (When) - 平均數的適用時機', en: 'When to use Averages?' },
+        desc: { zh: '適合在數據分佈比較均勻、沒有極端巨大或極小數值干擾時使用。', en: 'Best used when data is evenly distributed without extreme values.' }
+      },
+      {
+        id: 'when-sub1',
+        parentId: 'when',
+        label: { zh: '比較同類\n長期數據', en: 'Long-term\nData' },
+        cx: 410, cy: 600, r: 32,
+        color: '#8b5cf6',
+        title: { zh: '比較同類長期數據', en: 'Comparing Long-term Data' },
+        desc: { zh: '如比較不同年份的月平均氣溫、平均雨量或平均營業額。', en: 'Compare monthly average temperatures, rainfall, or revenue across years.' }
+      },
+      {
+        id: 'when-sub2',
+        parentId: 'when',
+        label: { zh: '數據分佈\n相對均勻', en: 'Evenly\nDistributed' },
+        cx: 500, cy: 630, r: 32,
+        color: '#8b5cf6',
+        title: { zh: '數據分佈相對均勻', en: 'Even Distribution' },
+        desc: { zh: '當數據之間差距不大時，平均數最具代表性與參考價值。', en: 'Averages are most reliable when individual values are close together.' }
+      },
+      {
+        id: 'when-sub3',
+        parentId: 'when',
+        label: { zh: '測驗平均分\n每日支出', en: 'Exam Marks\n& Spend' },
+        cx: 590, cy: 600, r: 32,
+        color: '#8b5cf6',
+        title: { zh: '測驗平均分與每日支出', en: 'Test Marks & Daily Spending' },
+        desc: { zh: '計算學生各科測驗平均分，或計算個人每月每日平均花費。', en: 'Calculate average test marks or average daily personal spending.' }
+      },
+
+      // 5. 何地/誰 (Where/Who) - 左下方藍綠色分支
+      {
+        id: 'where',
+        parentId: 'center',
+        label: { zh: '何地/誰\n(Where/Who)', en: 'Where/Who' },
+        cx: 310, cy: 470, r: 45,
+        color: '#0284c7',
+        title: { zh: '何地/誰 (Where/Who) - 應用場景與對象', en: 'Where & Who uses Averages?' },
+        desc: { zh: '政府統計、商業銷售、氣象分析、體育競技等領域均廣泛應用。', en: 'Used across government stats, sales analysis, weather, and sports.' }
+      },
+      {
+        id: 'where-sub1',
+        parentId: 'where',
+        label: { zh: '政府統計\n人均收入', en: 'Govt Stats\nPer Capita' },
+        cx: 190, cy: 570, r: 32,
+        color: '#06b6d4',
+        title: { zh: '政府統計人均收入', en: 'Government Per Capita Stats' },
+        desc: { zh: '如「人均 GDP」或「住戶平均收入」，反映整體社會生活水平。', en: 'Per capita income or GDP reflecting national standard of living.' }
+      },
+      {
+        id: 'where-sub2',
+        parentId: 'where',
+        label: { zh: '商業數據\n銷售分析', en: 'Business\nSales' },
+        cx: 130, cy: 480, r: 32,
+        color: '#06b6d4',
+        title: { zh: '商業數據與銷售分析', en: 'Business Sales Analysis' },
+        desc: { zh: '計算顧客「平均消費額」(客單價)，評估店舖營運績效。', en: 'Calculate average spend per transaction to optimize business strategy.' }
+      },
+      {
+        id: 'where-sub3',
+        parentId: 'where',
+        label: { zh: '平均氣溫\n球員得分', en: 'Weather &\nSports Stats' },
+        cx: 120, cy: 390, r: 32,
+        color: '#06b6d4',
+        title: { zh: '平均氣溫與球員得分', en: 'Weather & Sports Stats' },
+        desc: { zh: '氣象局發布的平均氣溫，或籃球員每場比賽的平均得分 (PPG)。', en: 'Average monthly temperature or a basketball player\'s points per game.' }
+      },
+
+      // 6. 注意 (Note) - 左上方紅色分支
+      {
+        id: 'note',
+        parentId: 'center',
+        label: { zh: '注意\n(Note)', en: 'Notes' },
+        cx: 310, cy: 230, r: 45,
+        color: '#dc2626',
+        title: { zh: '注意 (Note) - 平均數的局限與陷阱', en: 'Notes & Limitations' },
+        desc: { zh: '使用平均數時，必須注意極端值、零個數等特殊情況對結果的影響。', en: 'Watch out for extreme values, zero counts, and misleading averages.' }
+      },
+      {
+        id: 'note-sub1',
+        parentId: 'note',
+        label: { zh: '數據個數\n不可為零', en: 'Count Cannot\nBe Zero' },
+        cx: 120, cy: 310, r: 32,
+        color: '#ef4444',
+        title: { zh: '數據個數不可為零', en: 'Count Cannot Be Zero' },
+        desc: { zh: '數學上除數不能為 0！計算平均數時，數據個數必須至少為 1。', en: 'Division by zero is undefined! The count must be at least 1.' }
+      },
+      {
+        id: 'note-sub2',
+        parentId: 'note',
+        label: { zh: '不一定是\n真實數值', en: 'May Not Be\nReal Value' },
+        cx: 130, cy: 220, r: 32,
+        color: '#ef4444',
+        title: { zh: '不一定是真實數據', en: 'May Not Be an Actual Value' },
+        desc: { zh: '計算出的平均數可能在原始數據中並不存在（如平均家庭有 2.3 個小孩）。', en: 'The average value may not exist in the raw dataset (e.g., 2.3 children).' }
+      },
+      {
+        id: 'note-sub3',
+        parentId: 'note',
+        label: { zh: '受極端值\n影響極大', en: 'Affected by\nOutliers' },
+        cx: 190, cy: 130, r: 32,
+        color: '#ef4444',
+        title: { zh: '受極端值影響極大', en: 'Extremely Sensitive to Outliers' },
+        desc: { zh: '若有一個極大或極小的異常數據，會嚴重拉高或拉低平均數，導致失真。', en: 'A single outlier can heavily distort the average, making it misleading.' }
+      }
+    ];
+
+    let currentFocusedNode = null;
+    let currentScale = 1;
+    let currentTx = 0;
+    let currentTy = 0;
     let isMapDragging = false;
-    let mapStartX = 0;
-    let mapStartY = 0;
-    let currentlyFocusedNodeId = null;
+    let dragMoved = false;
+    let startMapX = 0;
+    let startMapY = 0;
 
     function initUnit2() {
-      buildMindmapCoordinates();
+      resetMindmapFocus();
       renderMindmap();
-      initMindmapDrag();
-    }
-
-    function buildMindmapCoordinates() {
-      flatMindmapNodes = [];
-      const centerX = 500;
-      const centerY = 350;
-
-      const root = { ...mindmapData, x: centerX, y: centerY, parent: null };
-      flatMindmapNodes.push(root);
-
-      const l1Radius = 210;
-      const l1Count = mindmapData.children.length;
-
-      mindmapData.children.forEach((l1, i) => {
-        let angle = (i * 2 * Math.PI / l1Count) - (Math.PI / 2);
-        let x = centerX + l1Radius * Math.cos(angle);
-        let y = centerY + l1Radius * Math.sin(angle);
-
-        const l1Node = { ...l1, x, y, parent: root, angle };
-        flatMindmapNodes.push(l1Node);
-
-        if (l1.children) {
-          const l2Radius = 155;
-          const l2Spread = 0.38;
-
-          l1.children.forEach((l2, j) => {
-            let offsetAngle = (j - (l1.children.length - 1) / 2) * l2Spread;
-            let l2Angle = angle + offsetAngle;
-            let l2X = x + l2Radius * Math.cos(l2Angle);
-            let l2Y = y + l2Radius * Math.sin(l2Angle);
-
-            const l2Node = { ...l2, r: 30, x: l2X, y: l2Y, parent: l1Node };
-            flatMindmapNodes.push(l2Node);
-          });
-        }
-      });
+      setupMindmapPanEvents();
     }
 
     function renderMindmap() {
       const linesGroup = document.getElementById('mindmap-lines');
       const nodesGroup = document.getElementById('mindmap-nodes');
+      if (!linesGroup || !nodesGroup) return;
 
       linesGroup.innerHTML = '';
       nodesGroup.innerHTML = '';
 
-      flatMindmapNodes.forEach(node => {
-        if (node.parent) {
-          let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          let dx = node.x - node.parent.x;
-          let dy = node.y - node.parent.y;
-          let cx1 = node.parent.x + dx * 0.5;
-          let cy1 = node.parent.y;
-          let cx2 = node.parent.x + dx * 0.5;
-          let cy2 = node.y;
-
-          let d = `M ${node.parent.x} ${node.parent.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${node.x} ${node.y}`;
-          path.setAttribute("d", d);
-          path.setAttribute("fill", "none");
-          path.setAttribute("stroke", "#94a3b8");
-          path.setAttribute("stroke-width", node.parent.id === 'root' ? "4" : "2");
-          path.setAttribute("opacity", "0.8");
-          linesGroup.appendChild(path);
+      // 繪製連接線
+      mindmapData.forEach(node => {
+        if (node.parentId) {
+          const parent = mindmapData.find(n => n.id === node.parentId);
+          if (parent) {
+            let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", parent.cx);
+            line.setAttribute("y1", parent.cy);
+            line.setAttribute("x2", node.cx);
+            line.setAttribute("y2", node.cy);
+            line.setAttribute("stroke", node.r > 35 ? "#94a3b8" : "#cbd5e1");
+            line.setAttribute("stroke-width", node.r > 35 ? "4" : "3");
+            linesGroup.appendChild(line);
+          }
         }
       });
 
-      flatMindmapNodes.forEach(node => {
+      // 繪製圓形節點與文字
+      mindmapData.forEach(node => {
         let g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        g.setAttribute("class", "mindmap-node");
-        g.setAttribute("id", `node-g-${node.id}`);
-        g.onclick = (e) => {
-          e.stopPropagation();
-          focusMindmapNode(node.id);
-        };
+        g.setAttribute("class", "mindmap-node outline-none cursor-pointer");
+        g.setAttribute("transform", `translate(${node.cx}, ${node.cy})`);
+        g.setAttribute("onclick", `handleNodeClick('${node.id}')`);
 
         let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", node.x);
-        circle.setAttribute("cy", node.y);
         circle.setAttribute("r", node.r);
         circle.setAttribute("fill", node.color);
         circle.setAttribute("stroke", "#ffffff");
-        circle.setAttribute("stroke-width", "3");
-
-        let nodeTextStr = currentLang === 'zh' ? node.textZh : node.textEn;
-        let lines = nodeTextStr.split('\n');
-
-        let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("x", node.x);
-        text.setAttribute("y", node.y);
-        text.setAttribute("fill", node.textColor);
-        text.setAttribute("font-weight", "bold");
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "central");
-        text.setAttribute("font-size", node.id === 'root' ? "15" : (node.r <= 30 ? "11" : "13"));
-
-        if (lines.length === 1) {
-          text.textContent = lines[0];
-        } else {
-          lines.forEach((lineText, idx) => {
-            let tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-            tspan.setAttribute("x", node.x);
-            let dy = (idx - (lines.length - 1) / 2) * 12;
-            tspan.setAttribute("dy", idx === 0 ? dy : 12);
-            tspan.textContent = lineText;
-            text.appendChild(tspan);
-          });
-        }
-
+        circle.setAttribute("stroke-width", node.isCenter ? "4" : "2.5");
+        circle.setAttribute("filter", "drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.15))");
         g.appendChild(circle);
-        g.appendChild(text);
+
+        let labelStr = node.label[currentLang] || node.label['zh'];
+        let lines = labelStr.split('\n');
+        let fontSize = node.isCenter ? 18 : (node.r > 35 ? 13 : 10.5);
+        let lineHeight = fontSize * 1.2;
+        let startY = -((lines.length - 1) * lineHeight) / 2;
+
+        lines.forEach((lineText, i) => {
+          let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("fill", "#ffffff");
+          text.setAttribute("font-size", fontSize);
+          text.setAttribute("font-weight", "800");
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("dominant-baseline", "central");
+          text.setAttribute("y", startY + i * lineHeight);
+          text.textContent = lineText;
+          g.appendChild(text);
+        });
+
         nodesGroup.appendChild(g);
       });
     }
 
-    function initMindmapDrag() {
-      const container = document.getElementById('mindmap-container');
-      const viewGroup = document.getElementById('mindmap-view-group');
-
-      const handleStart = (e) => {
-        isMapDragging = true;
-        let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        mapStartX = clientX - mapPanX;
-        mapStartY = clientY - mapPanY;
-        viewGroup.style.transition = 'none'; 
-      };
-
-      const handleMove = (e) => {
-        if (!isMapDragging) return;
-        if (e.cancelable) e.preventDefault();
-        let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        mapPanX = clientX - mapStartX;
-        mapPanY = clientY - mapStartY;
-        viewGroup.style.transform = `translate(${mapPanX}px, ${mapPanY}px) scale(${mapScale})`;
-      };
-
-      const handleEnd = () => {
-        if (isMapDragging) {
-          isMapDragging = false;
-          viewGroup.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-        }
-      };
-
-      container.addEventListener('mousedown', handleStart);
-      window.addEventListener('mousemove', handleMove);
-      window.addEventListener('mouseup', handleEnd);
-      container.addEventListener('touchstart', handleStart, { passive: false });
-      window.addEventListener('touchmove', handleMove, { passive: false });
-      window.addEventListener('touchend', handleEnd);
-    }
-
-    /* Two-stage Click & Flip Card Modal logic */
-    function focusMindmapNode(nodeId) {
-      const node = flatMindmapNodes.find(n => n.id === nodeId);
-      if (!node) return;
-
-      if (currentlyFocusedNodeId !== nodeId) {
-        currentlyFocusedNodeId = nodeId;
-
-        const viewGroup = document.getElementById('mindmap-view-group');
-        const centerX = 500;
-        const centerY = 350;
-
-        mapScale = nodeId === 'root' ? 1.8 : 2.5;
-        mapPanX = centerX - node.x * mapScale;
-        mapPanY = centerY - node.y * mapScale;
-
-        viewGroup.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-        viewGroup.style.transform = `translate(${mapPanX}px, ${mapPanY}px) scale(${mapScale})`;
-
-        flatMindmapNodes.forEach(n => {
-          let g = document.getElementById(`node-g-${n.id}`);
-          if (g) {
-            let circle = g.querySelector('circle');
-            if (n.id === nodeId) {
-              circle.setAttribute("stroke", "#f59e0b");
-              circle.setAttribute("stroke-width", 6 / mapScale);
-            } else {
-              circle.setAttribute("stroke", "#ffffff");
-              circle.setAttribute("stroke-width", 3 / mapScale);
-            }
-          }
-        });
+    function handleNodeClick(nodeId) {
+      // 若剛才發生了拖拉移動，忽略點擊動作
+      if (dragMoved) {
+        dragMoved = false;
         return;
       }
 
-      openFlipCardModal(node);
+      if (currentFocusedNode === nodeId) {
+        openMindmapModal(nodeId);
+      } else {
+        focusNode(nodeId);
+      }
+    }
+
+    function focusNode(nodeId) {
+      currentFocusedNode = nodeId;
+      const viewGroup = document.getElementById('mindmap-view-group');
+      const node = mindmapData.find(n => n.id === nodeId);
+      if (!node || !viewGroup) return;
+
+      // 計算動態縮放比例，使該節點（連同周邊區域）佔據心智圖畫面約 6 成面積 (以 700px 視區高度的 60% 即 420px 為目標)
+      const targetDiameter = 420;
+      const nodeEffectiveSize = node.r * 2.2;
+      currentScale = Math.min(6.5, Math.max(2.5, targetDiameter / nodeEffectiveSize));
+
+      // 計算平移位移量，將 (node.cx, node.cy) 平移至 ViewBox 中心 (500, 350)
+      currentTx = 500 - node.cx * currentScale;
+      currentTy = 350 - node.cy * currentScale;
+
+      viewGroup.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+      viewGroup.style.transform = `translate(${currentTx}px, ${currentTy}px) scale(${currentScale})`;
+    }
+
+    function resetMindmapFocus() {
+      currentFocusedNode = null;
+      currentScale = 1;
+      currentTx = 0;
+      currentTy = 0;
+      const viewGroup = document.getElementById('mindmap-view-group');
+      if (viewGroup) {
+        viewGroup.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+        viewGroup.style.transform = `translate(0px, 0px) scale(1)`;
+      }
+    }
+
+    /* 心智圖拖拉平移 (Pan) 事件設定 */
+    function setupMindmapPanEvents() {
+      const mapContainer = document.getElementById('mindmap-container');
+      const viewGroup = document.getElementById('mindmap-view-group');
+      if (!mapContainer || !viewGroup) return;
+
+      const onPointerDown = (clientX, clientY) => {
+        isMapDragging = true;
+        dragMoved = false;
+        startMapX = clientX - currentTx;
+        startMapY = clientY - currentTy;
+        viewGroup.style.transition = 'none';
+      };
+
+      const onPointerMove = (clientX, clientY) => {
+        if (!isMapDragging) return;
+        const dx = clientX - (startMapX + currentTx);
+        const dy = clientY - (startMapY + currentTy);
+        if (Math.hypot(dx, dy) > 6) {
+          dragMoved = true;
+        }
+        currentTx = clientX - startMapX;
+        currentTy = clientY - startMapY;
+        viewGroup.style.transform = `translate(${currentTx}px, ${currentTy}px) scale(${currentScale})`;
+      };
+
+      const onPointerUp = () => {
+        if (isMapDragging) {
+          isMapDragging = false;
+          viewGroup.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+        }
+      };
+
+      // 滑鼠事件
+      mapContainer.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        onPointerDown(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isMapDragging) {
+          e.preventDefault();
+          onPointerMove(e.clientX, e.clientY);
+        }
+      });
+
+      window.addEventListener('mouseup', onPointerUp);
+
+      // 觸控事件
+      mapContainer.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      mapContainer.addEventListener('touchmove', (e) => {
+        if (isMapDragging && e.touches.length === 1) {
+          onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', onPointerUp);
     }
 
     let isCardFlipped = false;
-    function openFlipCardModal(node) {
-      isCardFlipped = false;
-      const inner = document.getElementById('flip-card-inner');
-      inner.style.transform = 'rotateY(0deg)';
+    
+    function openMindmapModal(nodeId) {
+      const node = mindmapData.find(n => n.id === nodeId);
+      if (!node) return;
 
-      let titleStr = currentLang === 'zh' ? node.textZh : node.textEn;
-      document.getElementById('card-question-text').innerText = currentLang === 'zh' ? node.questionZh : node.questionEn;
-      document.getElementById('card-title-text').innerText = titleStr.replace('\n', ' ');
-      document.getElementById('card-answer-text').innerText = currentLang === 'zh' ? node.detailZh : node.detailEn;
+      const titleStr = node.title[currentLang] || node.title['zh'];
+      const descStr = node.desc[currentLang] || node.desc['zh'];
+      const labelStr = (node.label[currentLang] || node.label['zh']).replace('\n', ' ');
+
+      document.getElementById('card-question-text').innerText = labelStr;
+      document.getElementById('card-title-text').innerText = titleStr;
+      document.getElementById('card-answer-text').innerText = descStr;
+
+      const inner = document.getElementById('flip-card-inner');
+      if (inner) inner.classList.remove('rotate-y-180');
+      isCardFlipped = false;
 
       const modal = document.getElementById('mindmap-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function flipCard() {
-      isCardFlipped = !isCardFlipped;
-      const inner = document.getElementById('flip-card-inner');
-      inner.style.transform = isCardFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
     }
 
     function closeMindmapModal() {
       const modal = document.getElementById('mindmap-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function resetMindmapFocus() {
-      currentlyFocusedNodeId = null;
-      const viewGroup = document.getElementById('mindmap-view-group');
-      mapScale = 1.0;
-      mapPanX = 0;
-      mapPanY = 0;
-      viewGroup.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-      viewGroup.style.transform = `translate(${mapPanX}px, ${mapPanY}px) scale(${mapScale})`;
-
-      flatMindmapNodes.forEach(n => {
-        let g = document.getElementById(`node-g-${n.id}`);
-        if (g) {
-          let circle = g.querySelector('circle');
-          circle.setAttribute("stroke", "#ffffff");
-          circle.setAttribute("stroke-width", "3");
-        }
-      });
-    }
-
-    /* Unit 3: Contextual Practice Questions */
-    let currentQuizType = 'type1';
-    let currentQuizProblem = {};
-    let solvedQuizCount = 0;
-
-    function initUnit3() {
-      setupInputRestrictions();
-      generateNewQuizQuestion();
-    }
-
-    function setupInputRestrictions() {
-      const input = document.getElementById('quiz-user-input');
-      if (!input) return;
-
-      input.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === '-' || e.key === 'e' || e.key === 'E' || e.key === '+') {
-          e.preventDefault();
-        }
-      });
-
-      input.addEventListener('input', () => {
-        if (parseFloat(input.value) < 0) {
-          input.value = Math.abs(parseFloat(input.value)) || '';
-        }
-      });
-    }
-
-    function setQuizType(type) {
-      currentQuizType = type;
-      document.querySelectorAll('.qtype-btn').forEach(btn => {
-        btn.classList.remove('bg-amber-500', 'text-white');
-        btn.classList.add('bg-slate-100', 'text-slate-600');
-      });
-      const activeBtn = document.getElementById(`btn-qtype-${type.slice(-1)}`);
-      if (activeBtn) {
-        activeBtn.classList.add('bg-amber-500', 'text-white');
-        activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
       }
-      generateNewQuizQuestion();
     }
 
-    function generateNewQuizQuestion() {
-      document.getElementById('quiz-user-input').value = '';
-      document.getElementById('quiz-hint-box').classList.add('hidden');
-      document.getElementById('quiz-feedback-box').classList.add('hidden');
-
-      if (currentQuizType === 'type1') {
-        let count = Math.floor(Math.random() * 3) + 3;
-        let avg = Math.floor(Math.random() * 20) + 75;
-        let total = avg * count;
-        let scores = [];
-        let tempSum = 0;
-
-        for (let i = 0; i < count - 1; i++) {
-          let s = Math.floor(Math.random() * 25) + 70;
-          scores.push(s);
-          tempSum += s;
-        }
-        scores.push(total - tempSum);
-
-        currentQuizProblem = {
-          ans: avg,
-          unit: currentLang === 'zh' ? "分" : "pts",
-          textZh: `小明在 ${count} 次數學單元測驗中的得分分別是：<b>${scores.join('分、')}分</b>。求小明這 ${count} 次測驗的<b>平均得分</b>是多少？`,
-          textEn: `Ming scored <b>${scores.join(', ')}</b> in ${count} math quizzes. What is Ming's <b>average score</b>?`,
-          hintZh: `【公式】平均數 = 數據總和 ÷ 數據個數。\n先計算 (${scores.join(' + ')}) = ${total}，再除以 ${count}。`,
-          hintEn: `Formula: Average = Sum ÷ Count.\nSum = ${total}, then divide by ${count}.`
-        };
-      } else if (currentQuizType === 'type2') {
-        let count = Math.floor(Math.random() * 4) + 4;
-        let avg = Math.floor(Math.random() * 15) + 12;
-        let total = avg * count;
-
-        currentQuizProblem = {
-          ans: total,
-          unit: currentLang === 'zh' ? "元" : "HKD",
-          textZh: `小華過去 ${count} 天平均每天花費 <b>$${avg}</b> 購買零食。請問小華這 ${count} 天<b>合共花費</b>了多少元？`,
-          textEn: `Hua spent an average of <b>$${avg}</b> per day on snacks over the last ${count} days. What is the <b>total expenditure</b>?`,
-          hintZh: `【公式】數據總和 = 平均數 × 數據個數。\n計算：${avg} × ${count}。`,
-          hintEn: `Formula: Total = Average × Count.\nCalculate: ${avg} × ${count}.`
-        };
-      } else if (currentQuizType === 'type3') {
-        let targetAvg = 85;
-        let targetTotal = targetAvg * 5;
-        let prevSum = 335;
-        let neededScore = targetTotal - prevSum;
-
-        currentQuizProblem = {
-          ans: neededScore,
-          unit: currentLang === 'zh' ? "分" : "pts",
-          textZh: `小麗前 4 次測驗的總分是 <b>${prevSum} 分</b>。如果她想令 5 次測驗的<b>平均分達到 85 分</b>，第 5 次測驗她最少需要考取多少分？`,
-          textEn: `Li scored a total of ${prevSum} points in 4 tests. If she wants her 5-test <b>average to reach 85</b>, what score must she achieve on the 5th test?`,
-          hintZh: `【解題步驟】\n1. 5 次總共需要的分數 = 85 × 5 = 425 分。\n2. 第 5 次所需分數 = 425 - ${prevSum} 分。`,
-          hintEn: `Steps:\n1. Required total for 5 tests = 85 × 5 = 425.\n2. Needed score = 425 - ${prevSum}.`
-        };
-      }
-
-      renderQuizQuestion();
-    }
-
-    function renderQuizQuestion() {
-      if (!currentQuizProblem.textZh) return;
-      document.getElementById('quiz-question-text').innerHTML = currentLang === 'zh' ? currentQuizProblem.textZh : currentQuizProblem.textEn;
-      document.getElementById('quiz-unit-text').innerText = currentQuizProblem.unit;
-      document.getElementById('quiz-hint-content').innerText = currentLang === 'zh' ? currentQuizProblem.hintZh : currentQuizProblem.hintEn;
-    }
-
-    function toggleQuizHint() {
-      const box = document.getElementById('quiz-hint-box');
-      box.classList.toggle('hidden');
-    }
-
-    function checkQuizAnswer() {
-      const inputVal = parseFloat(document.getElementById('quiz-user-input').value);
-      const feedback = document.getElementById('quiz-feedback-box');
-      feedback.classList.remove('hidden');
-
-      if (isNaN(inputVal) || inputVal <= 0) {
-        feedback.className = "p-4 rounded-xl text-base font-bold bg-rose-100 text-rose-800 border border-rose-300";
-        feedback.innerText = currentLang === 'zh' ? "⚠️ 請輸入大於 0 的正數答案！" : "⚠️ Please enter a positive number!";
-        return;
-      }
-
-      if (Math.abs(inputVal - currentQuizProblem.ans) < 0.01) {
-        feedback.className = "p-4 rounded-xl text-base font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center space-x-2";
-        feedback.innerHTML = `<span>🎉</span> <span>${currentLang === 'zh' ? '答對了！非常棒！' : 'Correct! Great job!'}</span>`;
-        solvedQuizCount++;
-        document.getElementById('quiz-score-badge').innerText = currentLang === 'zh' ? `${solvedQuizCount} 題` : `${solvedQuizCount} Solved`;
+    function flipCard() {
+      const inner = document.getElementById('flip-card-inner');
+      if (!inner) return;
+      if (isCardFlipped) {
+        inner.classList.remove('rotate-y-180');
       } else {
-        feedback.className = "p-4 rounded-xl text-base font-bold bg-rose-100 text-rose-800 border border-rose-300";
-        feedback.innerHTML = `<span>❌ ${currentLang === 'zh' ? '答案不正確，再試試看！(按「提示」參考步驟)' : 'Incorrect, try again! (Click Hint for steps)'}</span>`;
+        inner.classList.add('rotate-y-180');
       }
+      isCardFlipped = !isCardFlipped;
     }
 
-    window.onload = function() {
+    /* 頁面載入預設設定（預設為中文） */
+    window.onload = () => {
+      currentLang = 'en'; // 設置為 en，呼叫 toggleLanguage() 後切換為預設的 'zh'
+      toggleLanguage();
       switchTab('home');
     };
   </script>
