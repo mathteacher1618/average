@@ -137,7 +137,7 @@
       </div>
     </section>
 
-    <!-- UNIT 1 PAGE (完全保留 v14 原內容，未做任何修改) -->
+    <!-- UNIT 1 PAGE -->
     <section id="page-unit1" class="hidden space-y-6">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
@@ -148,9 +148,10 @@
           <div class="flex flex-wrap items-center gap-2">
             <label class="text-sm font-semibold text-slate-600" id="lbl-item-count">項目數量：</label>
             <select id="select-bar-count" onchange="generateNewChart()" class="bg-slate-100 border border-slate-300 font-bold text-slate-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="2" selected>2 個項目</option>
               <option value="3">3 個項目</option>
               <option value="4">4 個項目</option>
-              <option value="5" selected>5 個項目</option>
+              <option value="5">5 個項目</option>
               <option value="6">6 個項目</option>
             </select>
             <button onclick="generateNewChart()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-1.5 rounded-lg text-sm font-bold shadow-sm transition active:scale-95 flex items-center space-x-1">
@@ -260,7 +261,7 @@
       </div>
     </section>
 
-    <!-- UNIT 2 PAGE (支援拖拉移動與精確放大6成畫面) -->
+    <!-- UNIT 2 PAGE -->
     <section id="page-unit2" class="hidden space-y-6">
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
@@ -545,17 +546,22 @@
     function generateNewChart() {
       clearAnimation();
       
-      showBarValues = document.getElementById('chk-show-values').checked;
-      showTotalSum = document.getElementById('chk-show-totalsum').checked;
-      showYAxis = document.getElementById('chk-show-yaxis').checked;
-      showCorrectAnswer = document.getElementById('chk-show-answer').checked;
-      
-      if (!showCorrectAnswer) {
-        document.getElementById('val-accuracy-badge').innerText = currentLang === 'zh' ? '請按「顯示答案」' : 'Check answer';
-        document.getElementById('val-accuracy-badge').className = 'text-base font-extrabold text-slate-400';
-      }
+      // 每次換一組數據時重設選項 (即取消勾選)
+      document.getElementById('chk-show-values').checked = false;
+      document.getElementById('chk-show-totalsum').checked = false;
+      document.getElementById('chk-show-yaxis').checked = false;
+      document.getElementById('chk-show-answer').checked = false;
+      document.getElementById('chk-show-formula').checked = false;
 
-      document.getElementById('grid-lines').style.display = showYAxis ? 'block' : 'none';
+      showBarValues = false;
+      showTotalSum = false;
+      showYAxis = false;
+      showCorrectAnswer = false;
+      
+      document.getElementById('val-accuracy-badge').innerText = currentLang === 'zh' ? '請按「顯示答案」' : 'Check answer';
+      document.getElementById('val-accuracy-badge').className = 'text-base font-extrabold text-slate-400';
+
+      document.getElementById('grid-lines').style.display = 'none';
 
       const count = parseInt(document.getElementById('select-bar-count').value);
       barValues = [];
@@ -855,45 +861,38 @@
       const maxBar = Math.max(...barValues);
       const diff = Math.abs(userEstimatedVal - exactAverage);
 
+      // 計算精準百分比 (Accuracy Percentage)
+      let percentage = exactAverage > 0 ? (1 - diff / exactAverage) * 100 : 0;
+      percentage = Math.max(0, percentage); // 最低為 0%
+
       let letterGrade = 'F';
 
+      // 優先檢查：當估算平均值低於數據中最低數據或高於最高數據時，判定為 F 級
       if (userEstimatedVal < minBar || userEstimatedVal > maxBar) {
         letterGrade = 'F';
-      } else if (diff === 0) {
+      } else if (percentage === 100) {
         letterGrade = 'S';
-      } else if (diff <= 2) {
-        letterGrade = 'A+';
-      } else if (diff <= 5) {
+      } else if (percentage >= 97) {
         letterGrade = 'A';
-      } else if (diff <= 8) {
-        letterGrade = 'A-';
-      } else if (diff <= 12) {
-        letterGrade = 'B+';
-      } else if (diff <= 16) {
+      } else if (percentage >= 94) {
         letterGrade = 'B';
-      } else if (diff <= 20) {
-        letterGrade = 'B-';
-      } else if (diff <= 25) {
-        letterGrade = 'C+';
-      } else if (diff <= 30) {
+      } else if (percentage >= 91) {
         letterGrade = 'C';
+      } else if (percentage >= 88) {
+        letterGrade = 'D';
       } else {
-        letterGrade = 'C-';
+        letterGrade = 'E';
       }
 
       const labelText = currentLang === 'zh' ? '評級' : 'Grade';
 
-      if (!showYAxis) {
-        badge.innerText = `${labelText}: ${letterGrade}`;
-      } else {
-        badge.innerText = `${labelText}: ${letterGrade} (±${diff.toFixed(1)})`;
-      }
+      badge.innerText = `${labelText}: ${letterGrade} (${percentage.toFixed(1)}%)`;
 
-      if (letterGrade === 'S' || letterGrade.startsWith('A')) {
+      if (letterGrade === 'S' || letterGrade === 'A') {
         badge.className = 'text-xl font-black text-emerald-600';
-      } else if (letterGrade.startsWith('B')) {
+      } else if (letterGrade === 'B' || letterGrade === 'C') {
         badge.className = 'text-xl font-black text-amber-600';
-      } else if (letterGrade.startsWith('C')) {
+      } else if (letterGrade === 'D' || letterGrade === 'E') {
         badge.className = 'text-xl font-black text-orange-500';
       } else {
         badge.className = 'text-xl font-black text-rose-500';
@@ -1182,7 +1181,6 @@
 
     /* Unit 2: 心智圖數據與排版 */
     const mindmapData = [
-      // 中心節點 (Navy Blue)
       {
         id: 'center',
         label: { zh: '平均數', en: 'Averages' },
@@ -1192,8 +1190,6 @@
         desc: { zh: '平均數是代表一組數據整體集中趨勢的代表數值。', en: 'An average represents the overall central tendency of a dataset.' },
         isCenter: true
       },
-
-      // 1. 甚麼 (What) - 頂部藍色分支
       {
         id: 'what',
         parentId: 'center',
@@ -1230,8 +1226,6 @@
         title: { zh: '單一數值概括全貌', en: 'Single Value Overview' },
         desc: { zh: '用一個數值快速概括龐大數據的總體水平，簡化分析。', en: 'Summarizes a large dataset with a single representative figure.' }
       },
-
-      // 2. 為何 (Why) - 右上方綠色分支
       {
         id: 'why',
         parentId: 'center',
@@ -1268,8 +1262,6 @@
         title: { zh: '消除個體隨機波動', en: 'Smooth Out Fluctuations' },
         desc: { zh: '單一數據的起伏可能只是偶然，平均數能平滑日常波動，呈現真實趨勢。', en: 'Smooths out random fluctuations to reveal the underlying trend.' }
       },
-
-      // 3. 如何 (How) - 右下方橙色分支
       {
         id: 'how',
         parentId: 'center',
@@ -1306,8 +1298,6 @@
         title: { zh: '移多補少與削高填低', en: 'Leveling Out Method' },
         desc: { zh: '把較高的部分剪下補到較低的地方，直觀地將所有數值填平。', en: 'Move excess from taller bars to fill shorter bars until equal.' }
       },
-
-      // 4. 何時 (When) - 底部紫色分支
       {
         id: 'when',
         parentId: 'center',
@@ -1344,8 +1334,6 @@
         title: { zh: '測驗平均分與每日支出', en: 'Test Marks & Daily Spending' },
         desc: { zh: '計算學生各科測驗平均分，或計算個人每月每日平均花費。', en: 'Calculate average test marks or average daily personal spending.' }
       },
-
-      // 5. 何地/誰 (Where/Who) - 左下方藍綠色分支
       {
         id: 'where',
         parentId: 'center',
@@ -1382,8 +1370,6 @@
         title: { zh: '平均氣溫與球員得分', en: 'Weather & Sports Stats' },
         desc: { zh: '氣象局發布的平均氣溫，或籃球員每場比賽的平均得分 (PPG)。', en: 'Average monthly temperature or a basketball player\'s points per game.' }
       },
-
-      // 6. 注意 (Note) - 左上方紅色分支
       {
         id: 'note',
         parentId: 'center',
@@ -1445,7 +1431,6 @@
       linesGroup.innerHTML = '';
       nodesGroup.innerHTML = '';
 
-      // 繪製連接線
       mindmapData.forEach(node => {
         if (node.parentId) {
           const parent = mindmapData.find(n => n.id === node.parentId);
@@ -1462,7 +1447,6 @@
         }
       });
 
-      // 繪製圓形節點與文字
       mindmapData.forEach(node => {
         let g = document.createElementNS("http://www.w3.org/2000/svg", "g");
         g.setAttribute("class", "mindmap-node outline-none cursor-pointer");
@@ -1500,7 +1484,6 @@
     }
 
     function handleNodeClick(nodeId) {
-      // 若剛才發生了拖拉移動，忽略點擊動作
       if (dragMoved) {
         dragMoved = false;
         return;
@@ -1519,12 +1502,10 @@
       const node = mindmapData.find(n => n.id === nodeId);
       if (!node || !viewGroup) return;
 
-      // 計算動態縮放比例，使該節點（連同周邊區域）佔據心智圖畫面約 6 成面積 (以 700px 視區高度的 60% 即 420px 為目標)
       const targetDiameter = 420;
       const nodeEffectiveSize = node.r * 2.2;
       currentScale = Math.min(6.5, Math.max(2.5, targetDiameter / nodeEffectiveSize));
 
-      // 計算平移位移量，將 (node.cx, node.cy) 平移至 ViewBox 中心 (500, 350)
       currentTx = 500 - node.cx * currentScale;
       currentTy = 350 - node.cy * currentScale;
 
@@ -1544,7 +1525,6 @@
       }
     }
 
-    /* 心智圖拖拉平移 (Pan) 事件設定 */
     function setupMindmapPanEvents() {
       const mapContainer = document.getElementById('mindmap-container');
       const viewGroup = document.getElementById('mindmap-view-group');
@@ -1577,7 +1557,6 @@
         }
       };
 
-      // 滑鼠事件
       mapContainer.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
         onPointerDown(e.clientX, e.clientY);
@@ -1592,7 +1571,6 @@
 
       window.addEventListener('mouseup', onPointerUp);
 
-      // 觸控事件
       mapContainer.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
@@ -1652,9 +1630,9 @@
       isCardFlipped = !isCardFlipped;
     }
 
-    /* 頁面載入預設設定（預設為中文） */
+    /* 頁面載入預設設定 */
     window.onload = () => {
-      currentLang = 'en'; // 設置為 en，呼叫 toggleLanguage() 後切換為預設的 'zh'
+      currentLang = 'en'; 
       toggleLanguage();
       switchTab('home');
     };
