@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>平均數 - 香港小學數學</title>
+  <!-- 引入 html2canvas 程式庫以支援報告圖片下載 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* 全局樣式與 iPad 觸控優化 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+      -webkit-tap-highlight-color: transparent; /* 移除 iOS/iPad 點擊藍色陰影 */
+    }
+
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      touch-action: manipulation; /* 優化 iPad 雙擊縮放延遲 */
+    }
+
+    /* 頂部導覽列 */
+    header {
+      background-color: #2b5278;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .lang-btn {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      min-height: 44px; /* 符合 Apple 觸控目標標準 */
+    }
+
+    .lang-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #2b5278;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    /* 首頁選單網格 */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid transparent;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card:hover, .card:active {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border-color: #4a90e2;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      color: #1a365d;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* 練習界面 */
+    .quiz-wrapper {
+      max-width: 650px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .back-nav-btn {
+      background: white;
+      border: 1px solid #cbd5e0;
+      color: #4a5568;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+      min-height: 44px;
+    }
+
+    .back-nav-btn:hover {
+      background-color: #edf2f7;
+      color: #2b6cb0;
+    }
+
+    .quiz-card {
+      background: white;
+      border-radius: 16px;
+      padding: 35px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      width: 100%;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #edf2f7;
+      padding-bottom: 12px;
+    }
+
+    .quiz-progress {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #3182ce;
+    }
+
+    .unit-tag {
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+
+    .difficulty-tag {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+    .diff-easy { background-color: #c6f6d5; color: #22543d; }
+    .diff-medium { background-color: #feebc8; color: #744210; }
+    .diff-hard { background-color: #fed7d7; color: #9b2c2c; }
+
+    .equation-container {
+      margin: 25px 0;
+      text-align: center;
+    }
+
+    .numbers-display {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #2d3748;
+      background: #f7fafc;
+      border: 2px dashed #cbd5e0;
+      border-radius: 12px;
+      padding: 18px 10px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .input-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #2d3748;
+    }
+
+    .answer-input {
+      font-size: 1.8rem;
+      width: 160px;
+      text-align: center;
+      border: 2px solid #cbd5e0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color 0.2s;
+      min-height: 50px;
+    }
+
+    .answer-input:focus {
+      border-color: #3182ce;
+    }
+
+    /* 選擇題按鈕網格 */
+    .mc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .mc-option-btn {
+      background-color: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #2d3748;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mc-option-btn:hover {
+      border-color: #3182ce;
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+    }
+
+    .mc-option-btn.selected {
+      border-color: #3182ce;
+      background-color: #3182ce;
+      color: white;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-align: center;
+      min-height: 48px;
+    }
+
+    .btn:active {
+      transform: scale(0.99);
+    }
+
+    .btn-primary { background-color: #3182ce; color: white; }
+    .btn-primary:hover { background-color: #2b6cb0; }
+
+    .btn-success { background-color: #38a169; color: white; }
+    .btn-success:hover { background-color: #2f855a; }
+
+    .btn-purple { background-color: #8e44ad; color: white; margin-bottom: 10px; }
+    .btn-purple:hover { background-color: #7d3c98; }
+
+    .btn-sky { background-color: #38bdf8; color: white; margin-bottom: 10px; }
+    .btn-sky:hover { background-color: #0284c7; }
+
+    .btn-gray { background-color: #7f8c8d; color: white; }
+    .btn-gray:hover { background-color: #636e72; }
+
+    /* 反饋與提示訊息 */
+    .feedback-box {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .feedback-success {
+      background-color: #c6f6d5;
+      color: #22543d;
+      border: 1px solid #9ae6b4;
+      text-align: center;
+    }
+
+    /* 第1、2次錯誤提示：黃色背景 */
+    .feedback-warning {
+      background-color: #fefcbf;
+      color: #744210;
+      border: 1.5px solid #f6e05e;
+      box-shadow: 0 2px 8px rgba(214, 158, 46, 0.15);
+    }
+
+    /* 第3次錯誤題解：紅色背景 */
+    .feedback-danger {
+      background-color: #fff5f5;
+      color: #9b2c2c;
+      border: 1.5px solid #feb2b2;
+      box-shadow: 0 2px 8px rgba(229, 62, 62, 0.15);
+    }
+
+    /* 圖解卡片 */
+    .notebook-card {
+      background-color: #ffffff;
+      border: 2px dashed #4a90e2;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .notebook-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-bottom: 10px;
+      width: 100%;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
+    }
+
+    .solution-steps {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      width: 100%;
+    }
+
+    /* 分數顯示優化 */
+    .fraction {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0 4px;
+      font-size: 0.9em;
+    }
+    .fraction .numerator {
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 1px;
+    }
+    .fraction .denominator {
+      padding-top: 1px;
+    }
+
+    /* 分析報告界面 */
+    .report-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .report-title {
+      text-align: center;
+      color: #3182ce;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .report-section {
+      background-color: #f8fafc;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin-bottom: 15px;
+    }
+
+    .report-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+
+    .report-row.dashed {
+      border-bottom: 1px dashed #cbd5e0;
+    }
+
+    .report-val { font-weight: bold; }
+    .val-green { color: #276749; }
+    .val-red { color: #9b2c2c; }
+    .val-blue { color: #0284c7; }
+
+    .section-label {
+      font-weight: bold;
+      color: #2d3748;
+      margin: 15px 0 10px 0;
+      font-size: 1rem;
+    }
+
+    .list-box {
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .list-box.correct-bg { background-color: #f7fafc; }
+    .list-box.wrong-bg { background-color: #f7fafc; }
+
+    .list-title {
+      font-weight: bold;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .item-card-correct {
+      background: #f0fff4;
+      border: 1px solid #c6f6d5;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      color: #22543d;
+      font-weight: 500;
+    }
+
+    .item-card-wrong {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      color: #9b2c2c;
+      font-weight: 500;
+    }
+
+    .item-card-correct:last-child, .item-card-wrong:last-child {
+      margin-bottom: 0;
+    }
+
+    .item-q-title { font-weight: bold; }
+    .item-ans-text { font-weight: bold; }
+
+    /* Modal 彈窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal-box h3 { margin-bottom: 12px; color: #2b5278; }
+    .modal-box p { margin-bottom: 20px; color: #4a5568; }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* iPad 螢幕寬度專用調整 */
+    @media (max-width: 768px) {
+      .quiz-card { padding: 25px 20px; }
+      .numbers-display { font-size: 1.2rem; }
+      .answer-input { font-size: 1.5rem; width: 140px; }
+      .mc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽列 -->
+  <header>
+    <h1 id="header-title">平均數</h1>
+    <button id="lang-toggle-btn" class="lang-btn" onclick="toggleLanguage()">English</button>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- 1. 首頁選擇界面 -->
+      <div id="page-home">
+        <h2 id="home-subtitle" class="page-title">請選擇學習單元</h2>
+        <div class="menu-grid">
+          <div class="card" onclick="startQuiz('clever_calc')">
+            <h3 id="unit1-card-title">單元一：巧算</h3>
+            <p id="desc-opt1">學習利用「等差數列中間數」與「湊十/湊百技巧」快速計算數組的平均數。</p>
+          </div>
+          <div class="card" onclick="startQuiz('change_value')">
+            <h3 id="unit2-card-title">單元二：改變數值</h3>
+            <p id="desc-opt2">探索當數組中的數據被修改、新增或移除時，平均值的相應變化。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 答題界面 -->
+      <div id="page-quiz" class="hidden">
+        <div class="quiz-wrapper">
+          <button class="back-nav-btn" onclick="askReturnHome()">
+            <span id="lbl-back-btn">← 返回單元選擇</span>
+          </button>
+
+          <div class="quiz-card">
+            <div class="quiz-header">
+              <div>
+                <span id="quiz-mode-name" class="unit-tag">巧算</span>
+                <span id="quiz-diff-tag" class="difficulty-tag diff-easy">初階</span>
+              </div>
+              <span id="quiz-progress-text" class="quiz-progress">題目 1 / 10</span>
+            </div>
+
+            <p style="text-align: center; font-size: 1.1rem; color: #4a5568; margin-bottom: 12px; font-weight: 500;" id="q-prompt">
+              計算以下數字的平均數：
+            </p>
+
+            <div class="equation-container">
+              <div id="numbers-display" class="numbers-display">
+                <!-- 數字或題幹區域 -->
+              </div>
+              
+              <!-- 填空輸入框（適用於巧算及單元二初階） -->
+              <div id="input-type-row" class="input-row">
+                <span id="lbl-ans-prompt">平均數 =</span>
+                <input type="text" id="answer-input" class="answer-input" placeholder="答案" autocomplete="off" inputmode="decimal" onkeypress="handleKeyPress(event)">
+              </div>
+
+              <!-- 四選一選擇題區域（適用於單元二中高階） -->
+              <div id="mc-type-row" class="mc-grid hidden">
+                <button class="mc-option-btn" onclick="selectMcOption('increase', this)">增加</button>
+                <button class="mc-option-btn" onclick="selectMcOption('decrease', this)">減少</button>
+                <button class="mc-option-btn" onclick="selectMcOption('unchanged', this)">不變</button>
+                <button class="mc-option-btn" onclick="selectMcOption('cannot_determine', this)">無法判斷</button>
+              </div>
+            </div>
+
+            <div id="action-area" style="margin-top: 25px;">
+              <button id="btn-submit" class="btn btn-primary" onclick="checkAnswer()">提交答案</button>
+              <button id="btn-next" class="btn btn-success hidden" onclick="nextQuestion()">再答一題 ➔</button>
+            </div>
+
+            <div id="feedback-area" class="feedback-box hidden"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 表現分析報告 -->
+      <div id="page-report" class="hidden">
+        <div id="report-card-to-capture" class="report-card">
+          <h2 id="report-main-title" class="report-title">練習完成！表現分析報告</h2>
+
+          <div class="report-section">
+            <div class="report-row dashed">
+              <span id="lbl-start-time">開始時間：</span>
+              <span id="val-start-time" class="report-val">--</span>
+            </div>
+            <div class="report-row dashed">
+              <span id="lbl-end-time">完成時間：</span>
+              <span id="val-end-time" class="report-val">--</span>
+            </div>
+            <div class="report-row">
+              <span id="lbl-duration">總用時：</span>
+              <span id="val-duration" class="report-val val-blue">--</span>
+            </div>
+          </div>
+
+          <div class="report-section">
+            <div class="report-row dashed">
+              <span id="lbl-total-correct">總答對題數：</span>
+              <span id="val-correct-count" class="report-val val-green">0 / 10</span>
+            </div>
+            <div class="report-row">
+              <span id="lbl-accuracy">整體正確率：</span>
+              <span id="val-accuracy" class="report-val">0%</span>
+            </div>
+          </div>
+
+          <div class="section-label" id="lbl-mastery-title">各主題掌握度分析</div>
+          <div class="report-section">
+            <div class="report-row">
+              <span id="report-unit-name">1. 巧算 (平均數)</span>
+              <span id="val-unit-mastery" class="report-val">0 / 10 (0%)</span>
+            </div>
+          </div>
+
+          <div class="list-box correct-bg">
+            <div class="list-title val-green">
+              <span>☑</span> <span id="lbl-correct-title">答對的題目</span>
+            </div>
+            <div id="correct-list-container"></div>
+          </div>
+
+          <div class="list-box wrong-bg">
+            <div class="list-title val-red">
+              <span>✕</span> <span id="lbl-wrong-title">答錯 / 需要協助的題目</span>
+            </div>
+            <div id="wrong-list-container"></div>
+          </div>
+
+          <!-- 按鈕選單 -->
+          <div data-html2canvas-ignore="true" style="margin-top: 20px;">
+            <button class="btn btn-purple" onclick="downloadReportImage()"><span id="lbl-btn-download">💾 下載報告圖片</span></button>
+            <button class="btn btn-sky" onclick="retryPractice()"><span id="lbl-btn-retry">🔄 我想再試</span></button>
+            <button class="btn btn-gray" onclick="goHome()"><span id="lbl-btn-home">回到主頁重新選擇</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 通用 Modal -->
+  <div id="custom-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 id="modal-title">標題</h3>
+      <p id="modal-msg">內容訊息</p>
+      <div class="modal-buttons">
+        <button id="modal-cancel-btn" class="btn btn-gray" style="flex: 1;" onclick="closeModal()">取消</button>
+        <button id="modal-confirm-btn" class="btn btn-primary" style="flex: 1;" onclick="confirmModalAction()">確定</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let currentLang = 'zh';
+    let currentMode = 'clever_calc';
+    let currentQIndex = 0;
+    let questions = [];
+    let records = [];
+    let startTimeObj = null;
+    let wrongAttempts = 0;
+    let selectedMcValue = null;
+    let modalActionCallback = null;
+
+    // 完整多語言字典
+    const i18n = {
+      zh: {
+        headerTitle: "平均數",
+        langBtn: "English",
+        homeSubtitle: "請選擇學習單元",
+        unit1Title: "單元一：巧算",
+        descOpt1: "學習利用「等差數列中間數」與「湊十/湊百技巧」快速計算數組的平均數。",
+        unit2Title: "單元二：改變數值",
+        descOpt2: "探索當數組中的數據被修改、新增或移除時，平均值的相應變化。",
+        unit1: "巧算",
+        unit2: "改變數值",
+        qProgress: "題目",
+        questionLabel: "第 {n} 題",
+        ansLabel: "答案",
+        yourAnsLabel: "你的回答",
+        correctAnsLabel: "正確答案",
+        backBtn: "← 返回單元選擇",
+        placeholderAns: "答案",
+        submitBtn: "提交答案",
+        nextBtn: "再答一題 ➔",
+        qPrompt: "計算以下數字的平均數：",
+        qPromptChange: "請根據題目條件回答問題：",
+        ansPrompt: "平均數 =",
+        ansPromptNew: "新的平均數 =",
+        easyLevel: "初階",
+        medLevel: "中階",
+        hardLevel: "高階",
+        praise: ["太棒了！答對了！🌟", "分析得非常出色！👏", "答對了！邏輯清晰又準確！🎉", "真聰明！掌握了平均數變化的規律！💪"],
+        encourage: ["再試一次！仔細觀察數值的變化對總和及平均數的影響！", "沒關係，重新算算看，你可以的！", "加油！試著比較新增或移除的數字與原平均數的大小關係！"],
+        
+        hintEasy5: "巧算提示：這 5 個數字排列後是【等差數列】，排序後最中間的數字就是平均數！",
+        hintEasy4: "巧算提示：這 4 個數字排列後是【等差數列】，平均數就是中間兩個數的平均值！",
+        hintMedium: "巧算提示：先找出可以湊成【整十】或【整百】的 1 對數字相加，再加上第 3 個數，最後除以 3！",
+        hintHard: "巧算提示：先找出 2 對可以分別湊成【整十】或【整百】的數字，相加後加上第 5 個數，最後除以 5！",
+        
+        hintChangeEasy: "提示：原平均數為 {avg}。舊數由 {oldVal} 改為 {newVal}，總和{diffText} {diff}。由於有 {n} 個數，平均值會{diffText} ({diff} ÷ {n}) = {changeAvg}！",
+        hintChangeMc: "提示：比較新加入或移除的數值與原平均數的大小關係！例如：新增大於平均數的數，會拉高平均；移去大於平均數的數，會拉低平均！",
+
+        feedbackMcCorrect: "<strong>{praise}</strong>",
+        feedbackMcWrongAddGreater: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試比較：新加入的數值 <strong>{val}</strong> 與原平均數 <strong>{avg}</strong> 的大小關係。若新加入的數比原平均數大，會拉高還是拉低整體平均？</span>",
+        feedbackMcWrongAddSmaller: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試比較：新加入的數值 <strong>{val}</strong> 與原平均數 <strong>{avg}</strong> 的大小關係。若新加入的數比原平均數小，會拉高還是拉低整體平均？</span>",
+        feedbackMcWrongRemoveGreater: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試比較：移去的數值 <strong>{val}</strong> 與原平均數 <strong>{avg}</strong> 的大小關係。若移去一個高於平均的數，剩餘數字的平均會發生什麼變化？</span>",
+        feedbackMcWrongRemoveSmaller: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試比較：移去的數值 <strong>{val}</strong> 與原平均數 <strong>{avg}</strong> 的大小關係。若移去一個低於平均的數，剩餘數字的平均會發生什麼變化？</span>",
+        feedbackMcWrongAddTwo: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試算出新增的 2 個數值的平均數（即 (<strong>{v1}</strong> + <strong>{v2}</strong>) ÷ 2 = <strong>{addAvg}</strong>），並將它與原平均數 <strong>{avg}</strong> 進行比較！</span>",
+        feedbackMcWrongRemoveTwo: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>試算出移去的 2 個數值的平均數（即 (<strong>{v1}</strong> + <strong>{v2}</strong>) ÷ 2 = <strong>{remAvg}</strong>），並思考移去這個平均數後對原平均數 <strong>{avg}</strong> 的影響！</span>",
+        feedbackMcWrongAddRemove: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>比較新增數值 <strong>{addVal}</strong> 與移去數值 <strong>{remVal}</strong> 的大小！總和是淨增加還是淨減少？</span>",
+
+        stepTitle: "解析與解題思路：",
+        
+        stepEasy5: `
+          1. 觀察數列：將數字由小到大排列得：<strong>{sorted}</strong>。<br>
+          2. 這是一個【等差數列】（項數為奇數 5），<strong>最中間的第 3 個數</strong>就是這組數的平均數。<br>
+          3. 得出平均數為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        `,
+        stepEasy4: `
+          1. 觀察數列：將數字由小到大排列得：<strong>{sorted}</strong>。<br>
+          2. 這是一個【等差數列】（項數為偶數 4），平均數等於中間兩數的和除以 2：({m1} + {m2}) ÷ 2 = {sum} ÷ 2。<br>
+          3. 得出平均數為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        `,
+        stepMedium: `
+          1. 湊整巧算：觀察發現 <strong>{p1} + {p2} = {pairSum}</strong>（湊成整十/整百）。<br>
+          2. 計算總和：{pairSum} + {rem} = <strong>{total}</strong>。<br>
+          3. 計算平均數：{total} ÷ 3 = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        `,
+        stepHard: `
+          1. 湊整巧算：觀察發現兩對湊整數：<br>
+             第一對：<strong>{p1} + {p2} = {sum1}</strong><br>
+             第二對：<strong>{p3} + {p4} = {sum2}</strong><br>
+          2. 計算總和：{sum1} + {sum2} + {rem} = <strong>{total}</strong>。<br>
+          3. 計算平均數：{total} ÷ 5 = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        `,
+
+        opt_increase: "增加",
+        opt_decrease: "減少",
+        opt_unchanged: "不變",
+        opt_cannot_determine: "無法判斷",
+
+        noWrong: "太厲害了！沒有答錯的題目！",
+        noCorrect: "無答對題目",
+        reportTitle: "練習完成！表現分析報告",
+        startTime: "開始時間：",
+        endTime: "完成時間：",
+        durationTime: "總用時：",
+        totalCorrect: "總答對題數：",
+        accuracy: "整體正確率：",
+        masteryTitle: "各主題掌握度分析",
+        correctTitle: "答對的題目",
+        wrongTitle: "答錯 / 需要協助的題目",
+        btnDownload: "💾 下載報告圖片",
+        btnRetry: "🔄 我想再試",
+        btnHome: "回到主頁重新選擇",
+        modalReturnTitle: "返回單元選擇",
+        modalReturnMsg: "確定要返回主選單嗎？目前的答題進度將不會被保存。",
+        diagramTitle: "解題思路拆解："
+      },
+      en: {
+        headerTitle: "Average",
+        langBtn: "繁體中文",
+        homeSubtitle: "Please Select a Learning Unit",
+        unit1Title: "Unit 1: Clever Calculation",
+        descOpt1: "Learn tricks using arithmetic sequence midpoints and rounding methods to quickly find averages.",
+        unit2Title: "Unit 2: Changing Values",
+        descOpt2: "Explore how the average changes when data within a set is modified, added, or removed.",
+        unit1: "Clever Calculation",
+        unit2: "Changing Values",
+        qProgress: "Question",
+        questionLabel: "Q{n}",
+        ansLabel: "Ans",
+        yourAnsLabel: "Your Ans",
+        correctAnsLabel: "Correct Ans",
+        backBtn: "← Back to Unit Selection",
+        placeholderAns: "Ans",
+        submitBtn: "Submit Answer",
+        nextBtn: "Next Question ➔",
+        qPrompt: "Find the average of the following numbers:",
+        qPromptChange: "Answer the question based on the given conditions:",
+        ansPrompt: "Average =",
+        ansPromptNew: "New Average =",
+        easyLevel: "Basic",
+        medLevel: "Intermediate",
+        hardLevel: "Advanced",
+        praise: ["Great job! That's correct! 🌟", "Awesome analysis! 👏", "Correct! Clear logic! 🎉", "Smart! You mastered value changes! 💪"],
+        encourage: ["Try again! Look closely at how value changes affect the sum and average!", "It's okay, try calculating again!", "Keep going! Compare new/removed numbers with the original average!"],
+        
+        hintEasy5: "Trick: These 5 numbers form an arithmetic sequence. The middle number after sorting is the average!",
+        hintEasy4: "Trick: These 4 numbers form an arithmetic sequence. The average is the mean of the two middle numbers!",
+        hintMedium: "Trick: Find 1 pair that sums to a multiple of 10 or 100, add the 3rd number, then divide by 3!",
+        hintHard: "Trick: Find 2 pairs that sum to multiples of 10 or 100, add the 5th number, then divide by 5!",
+        
+        hintChangeEasy: "Hint: Original average is {avg}. Changing {oldVal} to {newVal} changes the total by {diffText} {diff}. Divided by {n} numbers, average changes by {diffText} {changeAvg}!",
+        hintChangeMc: "Hint: Compare added/removed values to the original average! E.g. adding a value > average increases the average!",
+
+        feedbackMcCorrect: "<strong>{praise}</strong>",
+        feedbackMcWrongAddGreater: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Compare the added value <strong>{val}</strong> with original average <strong>{avg}</strong>. If added value > original average, will overall average increase or decrease?</span>",
+        feedbackMcWrongAddSmaller: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Compare the added value <strong>{val}</strong> with original average <strong>{avg}</strong>. If added value < original average, will overall average increase or decrease?</span>",
+        feedbackMcWrongRemoveGreater: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Compare the removed value <strong>{val}</strong> with original average <strong>{avg}</strong>. If a value > average is removed, what happens to the remaining average?</span>",
+        feedbackMcWrongRemoveSmaller: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Compare the removed value <strong>{val}</strong> with original average <strong>{avg}</strong>. If a value < average is removed, what happens to the remaining average?</span>",
+        feedbackMcWrongAddTwo: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Calculate average of 2 added values: (<strong>{v1}</strong> + <strong>{v2}</strong>) ÷ 2 = <strong>{addAvg}</strong>. Compare it with original average <strong>{avg}</strong>!</span>",
+        feedbackMcWrongRemoveTwo: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Calculate average of 2 removed values: (<strong>{v1}</strong> + <strong>{v2}</strong>) ÷ 2 = <strong>{remAvg}</strong>. Consider its impact on original average <strong>{avg}</strong>!</span>",
+        feedbackMcWrongAddRemove: "<strong>{encourage}</strong><br><span style='font-size:0.95rem; margin-top:4px; display:inline-block;'>Compare added value <strong>{addVal}</strong> with removed value <strong>{remVal}</strong>! Is there a net increase or decrease in total?</span>",
+
+        stepTitle: "Solution Steps & Logic:",
+        opt_increase: "Increase",
+        opt_decrease: "Decrease",
+        opt_unchanged: "Unchanged",
+        opt_cannot_determine: "Cannot Determine",
+
+        noWrong: "Awesome! Perfect score with no wrong answers!",
+        noCorrect: "No correct answers",
+        reportTitle: "Practice Complete! Performance Report",
+        startTime: "Start Time:",
+        endTime: "End Time:",
+        durationTime: "Duration:",
+        totalCorrect: "Total Correct:",
+        accuracy: "Overall Accuracy:",
+        masteryTitle: "Topic Mastery Analysis",
+        correctTitle: "Correct Questions",
+        wrongTitle: "Incorrect / Needs Review",
+        btnDownload: "💾 Download Report Image",
+        btnRetry: "🔄 Try Again",
+        btnHome: "Back to Home",
+        modalReturnTitle: "Return to Unit Selection",
+        modalReturnMsg: "Are you sure you want to return? Current progress will not be saved.",
+        diagramTitle: "Solution Breakdown:"
+      }
+    };
+
+    function startQuiz(mode) {
+      currentMode = mode;
+      currentQIndex = 0;
+      records = [];
+      startTimeObj = new Date();
+
+      document.getElementById('page-home').classList.add('hidden');
+      document.getElementById('page-report').classList.add('hidden');
+      document.getElementById('page-quiz').classList.remove('hidden');
+
+      generateQuestions(mode);
+      loadQuestion();
+    }
+
+    function generateQuestions(mode) {
+      questions = [];
+
+      if (mode === 'clever_calc') {
+        // 生成 10 道巧算題目 (3題初階, 4題中階, 3題高階)
+        for (let i = 0; i < 3; i++) {
+          const start = (i + 1) * 3 + Math.floor(Math.random() * 5);
+          const step = Math.floor(Math.random() * 3) + 2;
+          const nums = [start, start + step, start + step * 2, start + step * 3, start + step * 4];
+          const sortedNums = [...nums].sort((a, b) => a - b);
+          const shuffled = [...nums].sort(() => Math.random() - 0.5);
+          questions.push({
+            unit: 'clever_calc',
+            level: 'easy',
+            subType: 'easy5',
+            type: 'fill',
+            displayNums: shuffled,
+            sortedNums: sortedNums,
+            ans: sortedNums[2].toString()
+          });
+        }
+
+        for (let i = 0; i < 4; i++) {
+          const base = (i + 1) * 20;
+          const pair1 = base + Math.floor(Math.random() * 8) + 1;
+          const pair2 = 100 - pair1;
+          const rem = (Math.floor(Math.random() * 5) + 1) * 3;
+          const nums = [pair1, pair2, rem];
+          const shuffled = [...nums].sort(() => Math.random() - 0.5);
+          const total = pair1 + pair2 + rem;
+          const ans = total / 3;
+          questions.push({
+            unit: 'clever_calc',
+            level: 'medium',
+            type: 'fill',
+            displayNums: shuffled,
+            pair: [pair1, pair2],
+            pairSum: pair1 + pair2,
+            rem: rem,
+            total: total,
+            ans: ans.toString()
+          });
+        }
+
+        for (let i = 0; i < 3; i++) {
+          const p1 = 25 + i * 5;
+          const p2 = 100 - p1;
+          const p3 = 35 + i * 5;
+          const p4 = 100 - p3;
+          const rem = (i + 1) * 5;
+          const nums = [p1, p2, p3, p4, rem];
+          const shuffled = [...nums].sort(() => Math.random() - 0.5);
+          const total = p1 + p2 + p3 + p4 + rem;
+          const ans = total / 5;
+          questions.push({
+            unit: 'clever_calc',
+            level: 'hard',
+            type: 'fill',
+            displayNums: shuffled,
+            pair1: [p1, p2],
+            sum1: p1 + p2,
+            pair2: [p3, p4],
+            sum2: p3 + p4,
+            rem: rem,
+            total: total,
+            ans: ans.toString()
+          });
+        }
+      } else {
+        // 2. 單元二：改變數值
+        const round1 = (val) => Math.round((val + Number.EPSILON) * 10) / 10;
+
+        // 1. 初階題目 (3 題)
+        for (let i = 0; i < 3; i++) {
+          const n = Math.floor(Math.random() * 3) + 4; // 4, 5, 或 6
+          const origAvg = (Math.floor(Math.random() * 4) + 4) * 10; // 40 ~ 70
+          
+          const avgChangeVal = Math.floor(Math.random() * 5) + 1; // 1 ~ 5
+          const isIncrease = Math.random() < 0.5;
+          const diff = (isIncrease ? 1 : -1) * (avgChangeVal * n);
+
+          const oldVal = (Math.floor(Math.random() * 3) + 3) * 10; // 30 ~ 50
+          const newVal = oldVal + diff;
+          const newAvg = round1(origAvg + (isIncrease ? avgChangeVal : -avgChangeVal));
+
+          const nums = [];
+          for (let k = 0; k < n; k++) {
+            nums.push(origAvg + (k - Math.floor(n / 2)) * 2);
+          }
+
+          questions.push({
+            unit: 'change_value',
+            level: 'easy',
+            type: 'fill',
+            n: n,
+            origAvg: origAvg,
+            nums: nums,
+            oldVal: oldVal,
+            newVal: newVal,
+            diff: diff,
+            ans: newAvg.toString()
+          });
+        }
+
+        // 2. 中階題目 (4 題)
+        const medTemplates = [
+          { subAction: 'add_one', isGreater: true },
+          { subAction: 'add_one', isGreater: false },
+          { subAction: 'remove_one', isGreater: true },
+          { subAction: 'remove_one', isGreater: false }
+        ].sort(() => Math.random() - 0.5);
+
+        medTemplates.forEach(tpl => {
+          const origAvg = (Math.floor(Math.random() * 5) + 4) * 10; // 40 ~ 80
+          const offset = (Math.floor(Math.random() * 3) + 1) * 5; // 5, 10, 15
+          const targetVal = tpl.isGreater ? origAvg + offset : origAvg - offset;
+          
+          let ans = 'unchanged';
+          if (tpl.subAction === 'add_one') {
+            ans = tpl.isGreater ? 'increase' : 'decrease';
+          } else {
+            ans = tpl.isGreater ? 'decrease' : 'increase';
+          }
+
+          questions.push({
+            unit: 'change_value',
+            level: 'medium',
+            type: 'mc',
+            subAction: tpl.subAction,
+            targetVal: targetVal,
+            origAvg: origAvg,
+            ans: ans
+          });
+        });
+
+        // 3. 高階題目 (3 題)
+        const hardTemplates = ['add_two', 'remove_two', 'add_remove'].sort(() => Math.random() - 0.5);
+
+        hardTemplates.forEach(variant => {
+          const origAvg = (Math.floor(Math.random() * 5) + 4) * 10; // 40 ~ 80
+          let val1, val2, ans;
+
+          if (variant === 'add_two') {
+            const isAvgGreater = Math.random() < 0.5;
+            const diff = (Math.floor(Math.random() * 3) + 1) * 6;
+            if (isAvgGreater) {
+              val1 = origAvg + diff / 2;
+              val2 = origAvg + diff / 2 + 2;
+              ans = 'increase';
+            } else {
+              val1 = origAvg - diff / 2;
+              val2 = origAvg - diff / 2 - 2;
+              ans = 'decrease';
+            }
+          } else if (variant === 'remove_two') {
+            const isAvgGreater = Math.random() < 0.5;
+            const diff = (Math.floor(Math.random() * 3) + 1) * 6;
+            if (isAvgGreater) {
+              val1 = origAvg + diff / 2;
+              val2 = origAvg + diff / 2 + 4;
+              ans = 'decrease';
+            } else {
+              val1 = origAvg - diff / 2;
+              val2 = origAvg - diff / 2 - 4;
+              ans = 'increase';
+            }
+          } else { // add_remove
+            const addValIsGreater = Math.random() < 0.5;
+            const step = (Math.floor(Math.random() * 3) + 1) * 5; // 5, 10, 15
+            if (addValIsGreater) {
+              val1 = origAvg + step + 5;
+              val2 = origAvg + 5;
+              ans = 'increase';
+            } else {
+              val1 = origAvg + 5;
+              val2 = origAvg + step + 5;
+              ans = 'decrease';
+            }
+          }
+
+          questions.push({
+            unit: 'change_value',
+            level: 'hard',
+            type: 'mc',
+            variant: variant,
+            val1: val1,
+            val2: val2,
+            origAvg: origAvg,
+            ans: ans
+          });
+        });
+      }
+    }
+
+    function loadQuestion() {
+      wrongAttempts = 0;
+      selectedMcValue = null;
+
+      const q = questions[currentQIndex];
+      const t = i18n[currentLang];
+
+      document.getElementById('feedback-area').classList.add('hidden');
+      document.getElementById('feedback-area').innerHTML = '';
+      document.getElementById('btn-submit').classList.remove('hidden');
+      document.getElementById('btn-next').classList.add('hidden');
+
+      document.getElementById('quiz-mode-name').innerText = q.unit === 'clever_calc' ? t.unit1 : t.unit2;
+      document.getElementById('quiz-progress-text').innerText = `${t.qProgress} ${currentQIndex + 1} / ${questions.length}`;
+
+      const diffTag = document.getElementById('quiz-diff-tag');
+      if (q.level === 'easy') {
+        diffTag.className = 'difficulty-tag diff-easy';
+        diffTag.innerText = t.easyLevel;
+      } else if (q.level === 'medium') {
+        diffTag.className = 'difficulty-tag diff-medium';
+        diffTag.innerText = t.medLevel;
+      } else {
+        diffTag.className = 'difficulty-tag diff-hard';
+        diffTag.innerText = t.hardLevel;
+      }
+
+      const displayEl = document.getElementById('numbers-display');
+      const qPrompt = document.getElementById('q-prompt');
+      const inputRow = document.getElementById('input-type-row');
+      const mcRow = document.getElementById('mc-type-row');
+
+      if (q.unit === 'clever_calc') {
+        qPrompt.innerText = t.qPrompt;
+        displayEl.innerHTML = q.displayNums.map(n => formatNumText(n)).join(' , ');
+        document.getElementById('lbl-ans-prompt').innerText = t.ansPrompt;
+      } else {
+        qPrompt.innerText = t.qPromptChange;
+        if (q.level === 'easy') {
+          document.getElementById('lbl-ans-prompt').innerText = t.ansPromptNew;
+          if (currentLang === 'zh') {
+            displayEl.innerHTML = `一組有 ${q.n} 個數字，原平均數為 ${q.origAvg}。<br>若將其中一個數字 <strong>${q.oldVal}</strong> 改為 <strong>${q.newVal}</strong>：`;
+          } else {
+            displayEl.innerHTML = `A set has ${q.n} numbers with average ${q.origAvg}.<br>If number <strong>${q.oldVal}</strong> is changed to <strong>${q.newVal}</strong>:`;
+          }
+        } else if (q.level === 'medium') {
+          if (currentLang === 'zh') {
+            const act = q.subAction === 'add_one' ? '新增' : '移去';
+            displayEl.innerHTML = `已知一組數字的平均數為 ${q.origAvg}。<br>若在數組中<strong>${act}</strong>一個數值為 <strong>${q.targetVal}</strong> 的數字，平均數會？`;
+          } else {
+            const act = q.subAction === 'add_one' ? 'adding' : 'removing';
+            displayEl.innerHTML = `The average of a number set is ${q.origAvg}.<br>If <strong>${act}</strong> a number with value <strong>${q.targetVal}</strong>, the average will:`;
+          }
+        } else {
+          if (currentLang === 'zh') {
+            if (q.variant === 'add_two') {
+              displayEl.innerHTML = `已知原平均數為 ${q.origAvg}。<br>若新增兩個數字分別為 <strong>${q.val1}</strong> 和 <strong>${q.val2}</strong>，平均數會？`;
+            } else if (q.variant === 'remove_two') {
+              displayEl.innerHTML = `已知原平均數為 ${q.origAvg}。<br>若移去兩個數字分別為 <strong>${q.val1}</strong> 和 <strong>${q.val2}</strong>，平均數會？`;
+            } else {
+              displayEl.innerHTML = `已知原平均數為 ${q.origAvg}。<br>若新增一個數字 <strong>${q.val1}</strong> 並移去一個數字 <strong>${q.val2}</strong>，平均數會？`;
+            }
+          } else {
+            if (q.variant === 'add_two') {
+              displayEl.innerHTML = `Original average is ${q.origAvg}.<br>If adding two numbers <strong>${q.val1}</strong> and <strong>${q.val2}</strong>, the average will:`;
+            } else if (q.variant === 'remove_two') {
+              displayEl.innerHTML = `Original average is ${q.origAvg}.<br>If removing two numbers <strong>${q.val1}</strong> and <strong>${q.val2}</strong>, the average will:`;
+            } else {
+              displayEl.innerHTML = `Original average is ${q.origAvg}.<br>If adding <strong>${q.val1}</strong> and removing <strong>${q.val2}</strong>, the average will:`;
+            }
+          }
+        }
+      }
+
+      if (q.type === 'fill') {
+        inputRow.classList.remove('hidden');
+        mcRow.classList.add('hidden');
+        document.getElementById('btn-submit').classList.remove('hidden');
+        const input = document.getElementById('answer-input');
+        input.disabled = false;
+        input.value = '';
+        input.placeholder = t.placeholderAns;
+        setTimeout(() => input.focus(), 100);
+      } else {
+        inputRow.classList.add('hidden');
+        mcRow.classList.remove('hidden');
+        document.getElementById('btn-submit').classList.add('hidden');
+        const btns = document.querySelectorAll('#mc-type-row .mc-option-btn');
+        const optKeys = ['increase', 'decrease', 'unchanged', 'cannot_determine'];
+        btns.forEach((btn, index) => {
+          btn.disabled = false;
+          btn.className = 'mc-option-btn';
+          btn.style = '';
+          btn.innerText = t[`opt_${optKeys[index]}`];
+        });
+      }
+    }
+
+    function selectMcOption(val, btnEl) {
+      if (btnEl.disabled) return;
+      selectedMcValue = val;
+      const btns = document.querySelectorAll('#mc-type-row .mc-option-btn');
+      btns.forEach(b => {
+        b.classList.remove('selected', 'correct', 'incorrect');
+      });
+      btnEl.classList.add('selected');
+
+      checkAnswer();
+    }
+
+    function disableInputs() {
+      const input = document.getElementById('answer-input');
+      if (input) input.disabled = true;
+      const btns = document.querySelectorAll('#mc-type-row .mc-option-btn');
+      btns.forEach(b => b.disabled = true);
+    }
+
+    function checkAnswer() {
+      const q = questions[currentQIndex];
+      const t = i18n[currentLang];
+      const feedback = document.getElementById('feedback-area');
+
+      let userVal = '';
+      if (q.type === 'fill') {
+        userVal = document.getElementById('answer-input').value.trim();
+        if (userVal === '') return;
+      } else {
+        if (!selectedMcValue) return;
+        userVal = selectedMcValue;
+      }
+
+      const isCorrect = userVal === q.ans;
+
+      if (records.length <= currentQIndex) {
+        records.push({
+          qIndex: currentQIndex + 1,
+          questionObj: q,
+          targetAns: q.ans,
+          isCorrectOnFirstTry: isCorrect,
+          userFirstWrong: isCorrect ? null : userVal
+        });
+      }
+
+      feedback.classList.remove('hidden', 'feedback-success', 'feedback-danger', 'feedback-warning');
+
+      if (isCorrect) {
+        disableInputs();
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+
+        const randomPraise = t.praise[Math.floor(Math.random() * t.praise.length)];
+        const solutionHTML = getDetailedSolutionHTML(q, t);
+
+        feedback.className = 'feedback-box feedback-success';
+        feedback.innerHTML = `
+          <div style="font-size: 1.15rem; font-weight: bold; margin-bottom: 8px;">${randomPraise}</div>
+          <div class="notebook-card">
+            <div class="notebook-title">${t.stepTitle}</div>
+            <div class="solution-steps">${solutionHTML}</div>
+          </div>
+        `;
+      } else {
+        wrongAttempts++;
+        const randomEnc = t.encourage[Math.floor(Math.random() * t.encourage.length)];
+
+        if (wrongAttempts < 3) {
+          // 第 1、2 次答錯：黃色背景提示
+          feedback.className = 'feedback-box feedback-warning';
+
+          let hintContent = '';
+          if (q.unit === 'clever_calc') {
+            if (q.level === 'easy') {
+              hintContent = q.subType === 'easy5' ? t.hintEasy5 : t.hintEasy4;
+            } else if (q.level === 'medium') {
+              hintContent = t.hintMedium;
+            } else {
+              hintContent = t.hintHard;
+            }
+          } else {
+            if (q.level === 'easy') {
+              const isInc = q.diff > 0;
+              const diffText = isInc ? (currentLang === 'zh' ? '增加' : 'increased by') : (currentLang === 'zh' ? '減少' : 'decreased by');
+              const absDiff = Math.abs(q.diff);
+              const changeAvg = Math.abs(q.diff / q.n);
+              hintContent = t.hintChangeEasy
+                .replace('{avg}', q.origAvg)
+                .replace('{oldVal}', q.oldVal)
+                .replace('{newVal}', q.newVal)
+                .replace(/{diffText}/g, diffText)
+                .replace(/{diff}/g, absDiff)
+                .replace('{n}', q.n)
+                .replace('{changeAvg}', changeAvg);
+            } else {
+              hintContent = getMcFeedbackText(q, t, randomEnc);
+            }
+          }
+
+          feedback.innerHTML = `
+            <strong>${randomEnc} (嘗試 ${wrongAttempts}/3)</strong><br>
+            <span style="font-size:0.95rem; margin-top:4px; display:inline-block;">${hintContent}</span>
+          `;
+        } else {
+          // 第 3 次答錯：紅色背景完整題解
+          feedback.className = 'feedback-box feedback-danger';
+
+          disableInputs();
+          document.getElementById('btn-submit').classList.add('hidden');
+          document.getElementById('btn-next').classList.remove('hidden');
+
+          const solutionHTML = getDetailedSolutionHTML(q, t);
+          feedback.innerHTML = `
+            <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; color: #9b2c2c;">已嘗試 3 次，請參考以下正確答案與詳細解析：</div>
+            <div class="notebook-card">
+              <div class="notebook-title">${t.stepTitle}</div>
+              <div class="solution-steps">${solutionHTML}</div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    function getMcFeedbackText(q, t, randomEnc) {
+      if (q.level === 'medium') {
+        if (q.subAction === 'add_one') {
+          if (q.targetVal > q.origAvg) {
+            return t.feedbackMcWrongAddGreater.replace('{encourage}', randomEnc).replace('{val}', q.targetVal).replace('{avg}', q.origAvg);
+          } else {
+            return t.feedbackMcWrongAddSmaller.replace('{encourage}', randomEnc).replace('{val}', q.targetVal).replace('{avg}', q.origAvg);
+          }
+        } else {
+          if (q.targetVal > q.origAvg) {
+            return t.feedbackMcWrongRemoveGreater.replace('{encourage}', randomEnc).replace('{val}', q.targetVal).replace('{avg}', q.origAvg);
+          } else {
+            return t.feedbackMcWrongRemoveSmaller.replace('{encourage}', randomEnc).replace('{val}', q.targetVal).replace('{avg}', q.origAvg);
+          }
+        }
+      } else {
+        if (q.variant === 'add_two') {
+          const addAvg = Math.round(((q.val1 + q.val2) / 2) * 10) / 10;
+          return t.feedbackMcWrongAddTwo.replace('{encourage}', randomEnc).replace('{v1}', q.val1).replace('{v2}', q.val2).replace('{addAvg}', addAvg).replace('{avg}', q.origAvg);
+        } else if (q.variant === 'remove_two') {
+          const remAvg = Math.round(((q.val1 + q.val2) / 2) * 10) / 10;
+          return t.feedbackMcWrongRemoveTwo.replace('{encourage}', randomEnc).replace('{v1}', q.val1).replace('{v2}', q.val2).replace('{remAvg}', remAvg).replace('{avg}', q.origAvg);
+        } else {
+          return t.feedbackMcWrongAddRemove.replace('{encourage}', randomEnc).replace('{addVal}', q.val1).replace('{remVal}', q.val2);
+        }
+      }
+    }
+
+    function getDetailedSolutionHTML(q, t) {
+      const round1 = (val) => Math.round((val + Number.EPSILON) * 10) / 10;
+      if (q.unit === 'clever_calc') {
+        if (q.level === 'easy') {
+          const sortedStr = q.sortedNums.join(', ');
+          if (q.subType === 'easy5') {
+            return t.stepEasy5.replace('{sorted}', sortedStr).replace('{ans}', q.ans);
+          } else {
+            const m1 = q.sortedNums[1], m2 = q.sortedNums[2];
+            return t.stepEasy4.replace('{sorted}', sortedStr).replace('{m1}', m1).replace('{m2}', m2).replace('{sum}', round1(m1 + m2)).replace(/{ans}/g, q.ans);
+          }
+        } else if (q.level === 'medium') {
+          return t.stepMedium.replace('{p1}', formatNumText(q.pair[0])).replace('{p2}', formatNumText(q.pair[1])).replace('{pairSum}', q.pairSum).replace('{rem}', formatNumText(q.rem)).replace('{total}', q.total).replace('{ans}', q.ans);
+        } else {
+          return t.stepHard.replace('{p1}', formatNumText(q.pair1[0])).replace('{p2}', formatNumText(q.pair1[1])).replace('{sum1}', q.sum1).replace('{p3}', formatNumText(q.pair2[0])).replace('{p4}', formatNumText(q.pair2[1])).replace('{sum2}', q.sum2).replace('{rem}', formatNumText(q.rem)).replace('{total}', q.total).replace('{ans}', q.ans);
+        }
+      } else {
+        if (q.level === 'easy') {
+          const isInc = q.diff > 0;
+          const absDiff = round1(Math.abs(q.diff));
+          const changeVal = round1(absDiff / q.n);
+          if (currentLang === 'zh') {
+            return `
+              1. 數值由 <strong>${q.oldVal}</strong> 改為 <strong>${q.newVal}</strong>，總和${isInc ? '增加' : '減少'}了 <strong>${absDiff}</strong>。<br>
+              2. 將變化的總和平均分攤給 <strong>${q.n}</strong> 個數字：${absDiff} ÷ ${q.n} = <strong>${changeVal}</strong>。<br>
+              3. 新的平均數 = ${q.origAvg} ${isInc ? '+' : '-'} ${changeVal} = <strong style="color:#e53e3e; font-size:1.2rem;">${q.ans}</strong>
+            `;
+          } else {
+            return `
+              1. Value changed from <strong>${q.oldVal}</strong> to <strong>${q.newVal}</strong>, total ${isInc ? 'increased' : 'decreased'} by <strong>${absDiff}</strong>.<br>
+              2. Divide total change among <strong>${q.n}</strong> numbers: ${absDiff} ÷ ${q.n} = <strong>${changeVal}</strong>.<br>
+              3. New Average = ${q.origAvg} ${isInc ? '+' : '-'} ${changeVal} = <strong style="color:#e53e3e; font-size:1.2rem;">${q.ans}</strong>
+            `;
+          }
+        } else {
+          const ansText = t[`opt_${q.ans}`];
+          if (currentLang === 'zh') {
+            return `
+              1. 分析數值與原平均數 (${q.origAvg}) 的關係。<br>
+              2. 當進入數組的新數值大於平均數，或離開數組的舊數值小於平均數時，平均值會<strong>增加</strong>；反之會<strong>減少</strong>。<br>
+              3. 正確答案為：<strong style="color:#e53e3e; font-size:1.2rem;">${ansText}</strong>
+            `;
+          } else {
+            return `
+              1. Compare the added/removed numbers with the original average (${q.origAvg}).<br>
+              2. Adding values larger than average or removing values smaller than average will <strong>increase</strong> the average; vice versa.<br>
+              3. Correct Answer: <strong style="color:#e53e3e; font-size:1.2rem;">${ansText}</strong>
+            `;
+          }
+        }
+      }
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showReport();
+      }
+    }
+
+    function formatDate(d) {
+      const pad = (n) => n.toString().padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    function formatDuration(start, end) {
+      const diffInSeconds = Math.max(0, Math.floor((end - start) / 1000));
+      const mins = Math.floor(diffInSeconds / 60);
+      const secs = diffInSeconds % 60;
+      if (currentLang === 'en') {
+        return mins > 0 ? `${mins} min ${secs} sec` : `${secs} sec`;
+      } else {
+        return mins > 0 ? `${mins}分鐘${String(secs).padStart(2, '0')}秒` : `${secs}秒`;
+      }
+    }
+
+    function getQuestionTitleText(q) {
+      if (q.unit === 'clever_calc') {
+        return q.displayNums.map(n => formatNumText(n)).join(', ');
+      } else {
+        if (q.level === 'easy') {
+          return `[${q.nums.join(',')}] ${q.oldVal}➔${q.newVal}`;
+        } else if (q.level === 'medium') {
+          return `${q.subAction === 'add_one' ? '新增' : '移去'} ${q.targetVal}`;
+        } else {
+          return `${q.variant}`;
+        }
+      }
+    }
+
+    function showReport() {
+      const endTimeObj = new Date();
+      const t = i18n[currentLang];
+
+      document.getElementById('page-quiz').classList.add('hidden');
+      document.getElementById('page-report').classList.remove('hidden');
+
+      document.getElementById('report-main-title').innerText = t.reportTitle;
+      document.getElementById('lbl-start-time').innerText = t.startTime;
+      document.getElementById('lbl-end-time').innerText = t.endTime;
+      document.getElementById('lbl-duration').innerText = t.durationTime;
+      document.getElementById('lbl-total-correct').innerText = t.totalCorrect;
+      document.getElementById('lbl-accuracy').innerText = t.accuracy;
+      document.getElementById('lbl-mastery-title').innerText = t.masteryTitle;
+      document.getElementById('lbl-correct-title').innerText = t.correctTitle;
+      document.getElementById('lbl-wrong-title').innerText = t.wrongTitle;
+
+      document.getElementById('lbl-btn-download').innerText = t.btnDownload;
+      document.getElementById('lbl-btn-retry').innerText = t.btnRetry;
+      document.getElementById('lbl-btn-home').innerText = t.btnHome;
+
+      document.getElementById('val-start-time').innerText = formatDate(startTimeObj);
+      document.getElementById('val-end-time').innerText = formatDate(endTimeObj);
+      document.getElementById('val-duration').innerText = formatDuration(startTimeObj, endTimeObj);
+
+      let correctCount = 0;
+      records.forEach(r => {
+        if (r.isCorrectOnFirstTry) correctCount++;
+      });
+
+      const total = records.length;
+      const accuracyPct = Math.round((correctCount / total) * 100);
+
+      document.getElementById('val-correct-count').innerText = `${correctCount} / ${total}`;
+      document.getElementById('val-accuracy').innerText = `${accuracyPct}%`;
+
+      const unitName = currentMode === 'clever_calc' ? t.unit1 : t.unit2;
+      document.getElementById('report-unit-name').innerText = `1. ${unitName}`;
+      document.getElementById('val-unit-mastery').innerText = `${correctCount} / ${total} (${accuracyPct}%)`;
+
+      const correctContainer = document.getElementById('correct-list-container');
+      correctContainer.innerHTML = '';
+      const correctItems = records.filter(r => r.isCorrectOnFirstTry);
+
+      if (correctItems.length === 0) {
+        correctContainer.innerHTML = `<div style="font-size:0.95rem; color:#718096; padding-left:5px;">${t.noCorrect}</div>`;
+      } else {
+        correctItems.forEach(item => {
+          const qText = t.questionLabel.replace('{n}', item.qIndex);
+          const qExprText = getQuestionTitleText(item.questionObj);
+          const targetDisplay = item.questionObj.type === 'mc' ? t[`opt_${item.targetAns}`] : item.targetAns;
+          
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item-card-correct';
+          itemDiv.innerHTML = `
+            <div class="item-q-title">${qText} : [ ${qExprText} ]</div>
+            <div class="item-ans-text">${t.ansLabel} : ${targetDisplay}</div>
+          `;
+          correctContainer.appendChild(itemDiv);
+        });
+      }
+
+      const wrongContainer = document.getElementById('wrong-list-container');
+      wrongContainer.innerHTML = '';
+      const wrongItems = records.filter(r => !r.isCorrectOnFirstTry);
+
+      if (wrongItems.length === 0) {
+        wrongContainer.innerHTML = `<div style="font-size:0.95rem; color:#38a169; padding-left:5px;">${t.noWrong}</div>`;
+      } else {
+        wrongItems.forEach(item => {
+          const qText = t.questionLabel.replace('{n}', item.qIndex);
+          const qExprText = getQuestionTitleText(item.questionObj);
+          
+          let userDisplay = item.userFirstWrong !== null ? item.userFirstWrong : '-';
+          let targetDisplay = item.targetAns;
+
+          if (item.questionObj.type === 'mc') {
+            if (userDisplay !== '-') userDisplay = t[`opt_${userDisplay}`] || userDisplay;
+            targetDisplay = t[`opt_${targetDisplay}`] || targetDisplay;
+          }
+
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item-card-wrong';
+          itemDiv.innerHTML = `
+            <div class="item-q-title">${qText} : [ ${qExprText} ]</div>
+            <div class="item-ans-text">${t.yourAnsLabel} : ${userDisplay} | ${t.correctAnsLabel} : ${targetDisplay}</div>
+          `;
+          wrongContainer.appendChild(itemDiv);
+        });
+      }
+    }
+
+    function downloadReportImage() {
+      const element = document.getElementById('report-card-to-capture');
+      if (!element) return;
+
+      html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Average_Math_Report_${new Date().toISOString().slice(0,10)}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        alert("圖片下載失敗，請重試：" + err);
+      });
+    }
+
+    function openModal(title, msg, cancelTxt, confirmTxt, onConfirm) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-msg').innerText = msg;
+      document.getElementById('modal-cancel-btn').innerText = cancelTxt;
+      document.getElementById('modal-confirm-btn').innerText = confirmTxt;
+      modalActionCallback = onConfirm;
+      document.getElementById('custom-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('custom-modal').classList.remove('active');
+    }
+
+    function confirmModalAction() {
+      closeModal();
+      if (modalActionCallback) modalActionCallback();
+    }
+
+    function askReturnHome() {
+      const t = i18n[currentLang];
+      openModal(
+        t.modalReturnTitle,
+        t.modalReturnMsg,
+        '取消',
+        '確定',
+        goHome
+      );
+    }
+
+    function retryPractice() {
+      startQuiz(currentMode || 'clever_calc');
+    }
+
+    function goHome() {
+      document.getElementById('page-quiz').classList.add('hidden');
+      document.getElementById('page-report').classList.add('hidden');
+      document.getElementById('page-home').classList.remove('hidden');
+      document.getElementById('lang-toggle-btn').classList.remove('hidden');
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      const t = i18n[currentLang];
+
+      document.getElementById('header-title').innerText = t.headerTitle;
+      document.getElementById('lang-toggle-btn').innerText = t.langBtn;
+      document.getElementById('home-subtitle').innerText = t.homeSubtitle;
+      document.getElementById('unit1-card-title').innerText = t.unit1Title;
+      document.getElementById('desc-opt1').innerText = t.descOpt1;
+      document.getElementById('unit2-card-title').innerText = t.unit2Title;
+      document.getElementById('desc-opt2').innerText = t.descOpt2;
+      document.getElementById('lbl-back-btn').innerText = t.backBtn;
+
+      if (!document.getElementById('page-quiz').classList.contains('hidden')) {
+        loadQuestion();
+      } else if (!document.getElementById('page-report').classList.contains('hidden')) {
+        showReport();
+      }
+    }
+
+    function formatNumText(num) {
+      if (typeof num === 'object' && num.n !== undefined && num.d !== undefined) {
+        return `<span class="fraction"><span class="numerator">${num.n}</span><span class="denominator">${num.d}</span></span>`;
+      }
+      return num;
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        checkAnswer();
+      }
+    }
+  </script>
+  <!-- iPad 修正腳本 -->
+  <script src="https://mathteacher1618.github.io/my_fixes/ipad_fix.js"></script>
+</body>
+</html>
