@@ -731,8 +731,9 @@
         
         hintEasy5: "巧算提示：這 5 個數字排列後是【等差數列】，排序後最中間的數字就是平均數！",
         hintEasy4: "巧算提示：這 4 個數字排列後是【等差數列】，平均數就是中間兩個數的平均值！",
-        hintMedium: "巧算提示：先找出可以湊成【整十】或【整百】的 1 對數字相加，再加上第 3 個數，最後除以 3！",
-        hintHard: "巧算提示：先找出 2 對可以分別湊成【整十】或【整百】的數字，相加後加上第 5 個數，最後除以 5！",
+        hintMedium4: "巧算提示：先找出 2 對可以分別湊成【整十】或【整百】的數字，相加求出總和，最後除以 4！",
+        hintMedium5: "巧算提示：先找出 2 對可以分別湊成【整十】或【整百】的數字，加上第 5 個數字，最後除以 5！",
+        hintHardBase: "巧算提示：這 5 個數字的百位和十位相同！可以先用【基數法】，計算個位數的平均數，再加上基準數！",
         
         hintChangeEasy: "提示：原平均數為 {avg}。舊數由 {oldVal} 改為 {newVal}，總和{diffText} {diff}。由於有 {n} 個數，平均值會{diffText} ({diff} ÷ {n}) = {changeAvg}！",
         hintChangeMc: "提示：比較新加入或移除的數值與原平均數的大小關係！例如：新增大於平均數的數，會拉高平均；移去大於平均數的數，會拉低平均！",
@@ -758,17 +759,24 @@
           2. 這是一個【等差數列】（項數為偶數 4），平均數等於中間兩數的和除以 2：({m1} + {m2}) ÷ 2 = {sum} ÷ 2。<br>
           3. 得出平均數為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
         `,
-        stepMedium: `
-          1. 湊整巧算：觀察發現 <strong>{p1} + {p2} = {pairSum}</strong>（湊成整十/整百）。<br>
-          2. 計算總和：{pairSum} + {rem} = <strong>{total}</strong>。<br>
-          3. 計算平均數：{total} ÷ 3 = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        stepMedium4: `
+          1. 湊整巧算：觀察發現兩對湊整數：<br>
+             第一對：<strong>{p1} + {p2} = {sum1}</strong><br>
+             第二對：<strong>{p3} + {p4} = {sum2}</strong><br>
+          2. 計算總和：{sum1} + {sum2} = <strong>{total}</strong>。<br>
+          3. 計算平均數：{total} ÷ 4 = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
         `,
-        stepHard: `
+        stepMedium5: `
           1. 湊整巧算：觀察發現兩對湊整數：<br>
              第一對：<strong>{p1} + {p2} = {sum1}</strong><br>
              第二對：<strong>{p3} + {p4} = {sum2}</strong><br>
           2. 計算總和：{sum1} + {sum2} + {rem} = <strong>{total}</strong>。<br>
           3. 計算平均數：{total} ÷ 5 = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
+        `,
+        stepHardBase: `
+          1. 基數法巧算：5 個數字的百位和十位相同，基準數為 <strong>{base}</strong>。<br>
+          2. 計算個位數平均：({uList}) ÷ 5 = {uSum} ÷ 5 = <strong>{uAvg}</strong>。<br>
+          3. 得出平均數：{base} + {uAvg} = <strong style="color:#e53e3e; font-size:1.2rem;">{ans}</strong>
         `,
 
         opt_increase: "增加",
@@ -825,8 +833,9 @@
         
         hintEasy5: "Trick: These 5 numbers form an arithmetic sequence. The middle number after sorting is the average!",
         hintEasy4: "Trick: These 4 numbers form an arithmetic sequence. The average is the mean of the two middle numbers!",
-        hintMedium: "Trick: Find 1 pair that sums to a multiple of 10 or 100, add the 3rd number, then divide by 3!",
-        hintHard: "Trick: Find 2 pairs that sum to multiples of 10 or 100, add the 5th number, then divide by 5!",
+        hintMedium4: "Trick: Find 2 pairs that sum to multiples of 10 or 100, add them up, then divide by 4!",
+        hintMedium5: "Trick: Find 2 pairs that sum to multiples of 10 or 100, add the 5th number, then divide by 5!",
+        hintHardBase: "Trick: Hundreds and tens digits are identical! Calculate the average of units digits first, then add to base number!",
         
         hintChangeEasy: "Hint: Original average is {avg}. Changing {oldVal} to {newVal} changes the total by {diffText} {diff}. Divided by {n} numbers, average changes by {diffText} {changeAvg}!",
         hintChangeMc: "Hint: Compare added/removed values to the original average! E.g. adding a value > average increases the average!",
@@ -884,69 +893,229 @@
       questions = [];
 
       if (mode === 'clever_calc') {
-        // 生成 10 道巧算題目 (3題初階, 4題中階, 3題高階)
-        for (let i = 0; i < 3; i++) {
-          const start = (i + 1) * 3 + Math.floor(Math.random() * 5);
-          const step = Math.floor(Math.random() * 3) + 2;
-          const nums = [start, start + step, start + step * 2, start + step * 3, start + step * 4];
-          const sortedNums = [...nums].sort((a, b) => a - b);
-          const shuffled = [...nums].sort(() => Math.random() - 0.5);
-          questions.push({
-            unit: 'clever_calc',
-            level: 'easy',
-            subType: 'easy5',
-            type: 'fill',
-            displayNums: shuffled,
-            sortedNums: sortedNums,
-            ans: sortedNums[2].toString()
-          });
+        const usedSignatures = new Set();
+
+        // 輔助函式：檢查個位數數列是否非等差、最多只有一組重複且總和可被5整除
+        function isValidHardUnits(units) {
+          const sorted = [...units].sort((a, b) => a - b);
+          // 檢查是否為等差數列
+          const diff = sorted[1] - sorted[0];
+          let isArithmetic = true;
+          for (let i = 1; i < sorted.length - 1; i++) {
+            if (sorted[i + 1] - sorted[i] !== diff) {
+              isArithmetic = false;
+              break;
+            }
+          }
+          if (isArithmetic) return false;
+
+          // 檢查重複情況（不超過1對重複數，無3個以上相同數）
+          const counts = {};
+          for (let u of units) {
+            counts[u] = (counts[u] || 0) + 1;
+            if (counts[u] > 2) return false;
+          }
+          let pairCount = 0;
+          for (let k in counts) {
+            if (counts[k] === 2) pairCount++;
+          }
+          if (pairCount > 1) return false;
+
+          // 檢查總和是否能被 5 整除
+          const sum = units.reduce((a, b) => a + b, 0);
+          return sum % 5 === 0;
         }
 
-        for (let i = 0; i < 4; i++) {
-          const base = (i + 1) * 20;
-          const pair1 = base + Math.floor(Math.random() * 8) + 1;
-          const pair2 = 100 - pair1;
-          const rem = (Math.floor(Math.random() * 5) + 1) * 3;
-          const nums = [pair1, pair2, rem];
-          const shuffled = [...nums].sort(() => Math.random() - 0.5);
-          const total = pair1 + pair2 + rem;
-          const ans = total / 3;
-          questions.push({
-            unit: 'clever_calc',
-            level: 'medium',
-            type: 'fill',
-            displayNums: shuffled,
-            pair: [pair1, pair2],
-            pairSum: pair1 + pair2,
-            rem: rem,
-            total: total,
-            ans: ans.toString()
-          });
+        // --- 1. 初階 (4題) ---
+        // 第 1, 2 題：5 個等差的雙位數，不跟順序
+        for (let i = 0; i < 2; i++) {
+          let qObj = null;
+          while (!qObj) {
+            const start = Math.floor(Math.random() * 50) + 10;
+            const step = Math.floor(Math.random() * 6) + 1;
+            if (start + step * 4 <= 99) {
+              const nums = [start, start + step, start + step * 2, start + step * 3, start + step * 4];
+              const sig = nums.join(',');
+              if (!usedSignatures.has(sig)) {
+                usedSignatures.add(sig);
+                const sortedNums = [...nums];
+                const shuffled = [...nums].sort(() => Math.random() - 0.5);
+                qObj = {
+                  unit: 'clever_calc',
+                  level: 'easy',
+                  subType: 'easy5',
+                  type: 'fill',
+                  displayNums: shuffled,
+                  sortedNums: sortedNums,
+                  ans: sortedNums[2].toString()
+                };
+              }
+            }
+          }
+          questions.push(qObj);
         }
 
+        // 第 3, 4 題：4 個等差的雙位數，公差為偶數以確保平均數為整數
+        for (let i = 0; i < 2; i++) {
+          let qObj = null;
+          while (!qObj) {
+            const start = Math.floor(Math.random() * 50) + 10;
+            const step = (Math.floor(Math.random() * 6) + 1) * 2; // 2, 4, 6, 8, 10, 12
+            if (start + step * 3 <= 99) {
+              const nums = [start, start + step, start + step * 2, start + step * 3];
+              const sig = nums.join(',');
+              if (!usedSignatures.has(sig)) {
+                usedSignatures.add(sig);
+                const sortedNums = [...nums];
+                const shuffled = [...nums].sort(() => Math.random() - 0.5);
+                const ans = (sortedNums[1] + sortedNums[2]) / 2;
+                qObj = {
+                  unit: 'clever_calc',
+                  level: 'easy',
+                  subType: 'easy4',
+                  type: 'fill',
+                  displayNums: shuffled,
+                  sortedNums: sortedNums,
+                  ans: ans.toString()
+                };
+              }
+            }
+          }
+          questions.push(qObj);
+        }
+
+        // --- 2. 中階 (3題) ---
+        // 提供 4 或 5 個雙位數，包含 2 組湊整（整十或整百）
         for (let i = 0; i < 3; i++) {
-          const p1 = 25 + i * 5;
-          const p2 = 100 - p1;
-          const p3 = 35 + i * 5;
-          const p4 = 100 - p3;
-          const rem = (i + 1) * 5;
-          const nums = [p1, p2, p3, p4, rem];
-          const shuffled = [...nums].sort(() => Math.random() - 0.5);
-          const total = p1 + p2 + p3 + p4 + rem;
-          const ans = total / 5;
-          questions.push({
-            unit: 'clever_calc',
-            level: 'hard',
-            type: 'fill',
-            displayNums: shuffled,
-            pair1: [p1, p2],
-            sum1: p1 + p2,
-            pair2: [p3, p4],
-            sum2: p3 + p4,
-            rem: rem,
-            total: total,
-            ans: ans.toString()
-          });
+          let qObj = null;
+          const isFiveNums = (i === 1); // 混合 4 個數與 5 個數
+          while (!qObj) {
+            if (!isFiveNums) {
+              // 4 個數字：pair1 + pair2，總和能被 4 整除
+              const S1 = (Math.floor(Math.random() * 8) + 5) * 10; // 50..120
+              const p1_1 = Math.floor(Math.random() * (S1 - 20)) + 10;
+              const p1_2 = S1 - p1_1;
+
+              let S2 = (Math.floor(Math.random() * 8) + 5) * 10;
+              while ((S1 + S2) % 4 !== 0) {
+                S2 += 10;
+              }
+
+              const p2_1 = Math.floor(Math.random() * (S2 - 20)) + 10;
+              const p2_2 = S2 - p2_1;
+
+              if (p1_1 >= 10 && p1_1 <= 99 && p1_2 >= 10 && p1_2 <= 99 &&
+                  p2_1 >= 10 && p2_1 <= 99 && p2_2 >= 10 && p2_2 <= 99) {
+                const nums = [p1_1, p1_2, p2_1, p2_2];
+                const sig = [...nums].sort((a, b) => a - b).join(',');
+                if (!usedSignatures.has(sig)) {
+                  usedSignatures.add(sig);
+                  const total = S1 + S2;
+                  const ans = total / 4;
+                  qObj = {
+                    unit: 'clever_calc',
+                    level: 'medium',
+                    subType: 'med4',
+                    type: 'fill',
+                    displayNums: [...nums].sort(() => Math.random() - 0.5),
+                    pair1: [p1_1, p1_2],
+                    sum1: S1,
+                    pair2: [p2_1, p2_2],
+                    sum2: S2,
+                    total: total,
+                    ans: ans.toString()
+                  };
+                }
+              }
+            } else {
+              // 5 個數字：pair1 + pair2 + rem (5的倍數)
+              const S1 = (Math.floor(Math.random() * 8) + 5) * 10;
+              const p1_1 = Math.floor(Math.random() * (S1 - 20)) + 10;
+              const p1_2 = S1 - p1_1;
+
+              const S2 = (Math.floor(Math.random() * 8) + 5) * 10;
+              const p2_1 = Math.floor(Math.random() * (S2 - 20)) + 10;
+              const p2_2 = S2 - p2_1;
+
+              const rem = (Math.floor(Math.random() * 16) + 2) * 5; // 10..90 (5的倍數)
+
+              if (p1_1 >= 10 && p1_1 <= 99 && p1_2 >= 10 && p1_2 <= 99 &&
+                  p2_1 >= 10 && p2_1 <= 99 && p2_2 >= 10 && p2_2 <= 99 &&
+                  rem >= 10 && rem <= 99) {
+                const nums = [p1_1, p1_2, p2_1, p2_2, rem];
+                const sig = [...nums].sort((a, b) => a - b).join(',');
+                if (!usedSignatures.has(sig)) {
+                  usedSignatures.add(sig);
+                  const total = S1 + S2 + rem;
+                  const ans = total / 5;
+                  qObj = {
+                    unit: 'clever_calc',
+                    level: 'medium',
+                    subType: 'med5',
+                    type: 'fill',
+                    displayNums: [...nums].sort(() => Math.random() - 0.5),
+                    pair1: [p1_1, p1_2],
+                    sum1: S1,
+                    pair2: [p2_1, p2_2],
+                    sum2: S2,
+                    rem: rem,
+                    total: total,
+                    ans: ans.toString()
+                  };
+                }
+              }
+            }
+          }
+          questions.push(qObj);
+        }
+
+        // --- 3. 高階 (3題) ---
+        // 5 個三位數，百位與十位相同，非等差，最多1個重複數
+        for (let i = 0; i < 3; i++) {
+          let qObj = null;
+          while (!qObj) {
+            const H = Math.floor(Math.random() * 8) + 1; // 1..8
+            const T = Math.floor(Math.random() * 10);    // 0..9
+            const base = H * 100 + T * 10;               // 基準數，例 160
+
+            const targetSum = (Math.floor(Math.random() * 5) + 3) * 5; // 15, 20, 25, 30, 35
+            const units = [];
+            let currentSum = 0;
+            for (let k = 0; k < 4; k++) {
+              const u = Math.floor(Math.random() * 10);
+              units.push(u);
+              currentSum += u;
+            }
+            const lastU = targetSum - currentSum;
+            units.push(lastU);
+
+            if (lastU >= 0 && lastU <= 9) {
+              if (isValidHardUnits(units)) {
+                const nums = units.map(u => base + u);
+                const sig = [...nums].sort((a, b) => a - b).join(',');
+                if (!usedSignatures.has(sig)) {
+                  usedSignatures.add(sig);
+                  const uSum = targetSum;
+                  const uAvg = uSum / 5;
+                  const ans = base + uAvg;
+                  const shuffled = [...nums].sort(() => Math.random() - 0.5);
+                  qObj = {
+                    unit: 'clever_calc',
+                    level: 'hard',
+                    subType: 'hardBase',
+                    type: 'fill',
+                    displayNums: shuffled,
+                    base: base,
+                    units: units,
+                    uSum: uSum,
+                    uAvg: uAvg,
+                    ans: ans.toString()
+                  };
+                }
+              }
+            }
+          }
+          questions.push(qObj);
         }
       } else {
         // 2. 單元二：改變數值
@@ -1248,9 +1417,9 @@
             if (q.level === 'easy') {
               hintContent = q.subType === 'easy5' ? t.hintEasy5 : t.hintEasy4;
             } else if (q.level === 'medium') {
-              hintContent = t.hintMedium;
+              hintContent = q.subType === 'med4' ? t.hintMedium4 : t.hintMedium5;
             } else {
-              hintContent = t.hintHard;
+              hintContent = t.hintHardBase;
             }
           } else {
             if (q.level === 'easy') {
@@ -1335,9 +1504,36 @@
             return t.stepEasy4.replace('{sorted}', sortedStr).replace('{m1}', m1).replace('{m2}', m2).replace('{sum}', round1(m1 + m2)).replace(/{ans}/g, q.ans);
           }
         } else if (q.level === 'medium') {
-          return t.stepMedium.replace('{p1}', formatNumText(q.pair[0])).replace('{p2}', formatNumText(q.pair[1])).replace('{pairSum}', q.pairSum).replace('{rem}', formatNumText(q.rem)).replace('{total}', q.total).replace('{ans}', q.ans);
+          if (q.subType === 'med4') {
+            return t.stepMedium4
+              .replace('{p1}', formatNumText(q.pair1[0]))
+              .replace('{p2}', formatNumText(q.pair1[1]))
+              .replace('{sum1}', q.sum1)
+              .replace('{p3}', formatNumText(q.pair2[0]))
+              .replace('{p4}', formatNumText(q.pair2[1]))
+              .replace('{sum2}', q.sum2)
+              .replace(/{total}/g, q.total)
+              .replace('{ans}', q.ans);
+          } else {
+            return t.stepMedium5
+              .replace('{p1}', formatNumText(q.pair1[0]))
+              .replace('{p2}', formatNumText(q.pair1[1]))
+              .replace('{sum1}', q.sum1)
+              .replace('{p3}', formatNumText(q.pair2[0]))
+              .replace('{p4}', formatNumText(q.pair2[1]))
+              .replace('{sum2}', q.sum2)
+              .replace('{rem}', formatNumText(q.rem))
+              .replace(/{total}/g, q.total)
+              .replace('{ans}', q.ans);
+          }
         } else {
-          return t.stepHard.replace('{p1}', formatNumText(q.pair1[0])).replace('{p2}', formatNumText(q.pair1[1])).replace('{sum1}', q.sum1).replace('{p3}', formatNumText(q.pair2[0])).replace('{p4}', formatNumText(q.pair2[1])).replace('{sum2}', q.sum2).replace('{rem}', formatNumText(q.rem)).replace('{total}', q.total).replace('{ans}', q.ans);
+          const uList = q.displayNums.map(n => n % 10).join(' + ');
+          return t.stepHardBase
+            .replace('{base}', q.base)
+            .replace('{uList}', uList)
+            .replace('{uSum}', q.uSum)
+            .replace('{uAvg}', q.uAvg)
+            .replace('{ans}', q.ans);
         }
       } else {
         if (q.level === 'easy') {
